@@ -1,0 +1,156 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* shadcn semantic mapping -> Kostku design tokens */
+  --color-background: var(--canvas);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-poppins);
+  --font-heading: var(--font-lora);
+  --color-sidebar-ring: var(--ring);
+  --color-sidebar-border: var(--hairline);
+  --color-sidebar-accent-foreground: var(--ink);
+  --color-sidebar-accent: var(--surface-soft);
+  --color-sidebar-primary-foreground: var(--on-primary);
+  --color-sidebar-primary: var(--primary);
+  --color-sidebar-foreground: var(--ink);
+  --color-sidebar: var(--canvas);
+  --color-ring: var(--ink);
+  --color-input: var(--hairline);
+  --color-border: var(--hairline);
+  --color-destructive: var(--primary-error-text);
+  --color-accent-foreground: var(--ink);
+  --color-accent: var(--primary-soft);
+  --color-muted-foreground: var(--muted);
+  --color-muted: var(--surface-soft);
+  --color-secondary-foreground: var(--ink);
+  --color-secondary: var(--surface-soft);
+  --color-primary-foreground: var(--on-primary);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--ink);
+  --color-popover: var(--canvas);
+  --color-card-foreground: var(--ink);
+  --color-card: var(--canvas);
+
+  /* Kostku design tokens, exposed directly as utilities */
+  --color-canvas: var(--canvas);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-strong: var(--surface-strong);
+  --color-ink: var(--ink);
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+  --color-border-strong: var(--border-strong);
+  --color-muted-soft: var(--muted-soft);
+  --color-primary-active: var(--primary-active);
+  --color-primary-disabled: var(--primary-disabled);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-error-text: var(--primary-error-text);
+  --color-primary-error-text-hover: var(--primary-error-text-hover);
+  --color-on-primary: var(--on-primary);
+  --color-on-dark: var(--on-dark);
+  --color-legal-link: var(--legal-link);
+  --color-star-rating: var(--star-rating);
+  --color-scrim: var(--scrim);
+
+  /* No --radius-xl here: in this Tailwind v4 build, a themed --radius-{key}
+     silently overrides max-w-{key} (they share the same keyed lookup), which
+     broke max-w-xl. Only override xs/sm/md/lg, which nothing else here uses. */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+:root {
+  /* Primary / 60% */
+  --canvas: #f8f6f2;
+  --surface-soft: #e8dfd5;
+  --surface-card: #f8f6f2;
+  --surface-strong: #e8dfd5;
+  --ink: #3a3635;
+  --body: #3a3635;
+
+  /* Secondary / 30% */
+  --hairline: #f2d5cf;
+  --border-strong: #8e8b87;
+
+  /* Accent / 10% */
+  --primary: #c92d31;
+  --primary-soft: #cf7b72;
+
+  /* Derived */
+  --muted: #908c8a;
+  --muted-soft: #bfbcb9;
+  --hairline-soft: #e8e6e2;
+  --primary-active: #a52528;
+  --primary-disabled: #ecc4c2;
+  --primary-error-text: #a8451e;
+  --primary-error-text-hover: #8f3b1a;
+  --on-primary: #f8f6f2;
+  --on-dark: #f8f6f2;
+  --legal-link: #3a3635;
+  --star-rating: #3a3635;
+  --scrim: #3a3635;
+
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--canvas);
+  --card-foreground: var(--ink);
+  --popover: var(--canvas);
+  --popover-foreground: var(--ink);
+  --primary-foreground: var(--on-primary);
+  --secondary: var(--surface-soft);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: var(--primary-soft);
+  --accent-foreground: var(--ink);
+  --destructive: var(--primary-error-text);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--ink);
+  --radius: 8px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .shadow-card {
+    box-shadow:
+      rgba(58, 54, 53, 0.02) 0 0 0 1px,
+      rgba(58, 54, 53, 0.04) 0 2px 6px 0,
+      rgba(58, 54, 53, 0.1) 0 4px 8px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
