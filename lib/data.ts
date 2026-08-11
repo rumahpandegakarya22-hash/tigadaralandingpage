@@ -107,6 +107,7 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
       mapsUrl: propertyRow.mapsUrl,
       whatsappNumber: propertyRow.whatsappNumber,
       phoneDisplay: propertyRow.phoneDisplay,
+      heroPhotoUrl: propertyRow.heroPhotoUrl,
     },
     highlights: highlightRows.map((h) => ({
       id: String(h.id),

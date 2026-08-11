@@ -10,6 +10,7 @@ export type Property = {
   mapsUrl: string;
   whatsappNumber: string;
   phoneDisplay: string;
+  heroPhotoUrl: string;
 };
 
 export type Highlight = {

@@ -22,7 +22,10 @@ export async function renderPropertyPage(slug: string) {
   ]);
   if (!data) notFound();
 
-  const heroPhoto = data.galleryPhotos[0];
+  // Foto hero: pakai slot khusus bila diisi, jika kosong fallback ke foto galeri pertama.
+  const heroPhoto = data.property.heroPhotoUrl
+    ? { id: "hero", src: data.property.heroPhotoUrl, alt: `Foto ${data.property.name}` }
+    : data.galleryPhotos[0];
   if (!heroPhoto) notFound();
 
   return (

@@ -40,6 +40,7 @@ export const property: Property = {
   mapsUrl: "https://maps.app.goo.gl/HE8KQt8RzmCACgnm6",
   whatsappNumber: "6282233343839",
   phoneDisplay: "0822-3334-3839",
+  heroPhotoUrl: "",
 };
 
 export const highlights: Highlight[] = [

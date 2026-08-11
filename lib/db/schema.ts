@@ -26,6 +26,7 @@ export const landingProperties = sqliteTable("landing_properties", {
   phoneDisplay: text("phone_display").notNull(),
   tourVideoUrl: text("tour_video_url").notNull().default(""),
   tourVideoPosterUrl: text("tour_video_poster_url").notNull().default(""),
+  heroPhotoUrl: text("hero_photo_url").notNull().default(""),
   ...timestamps,
 });
 
