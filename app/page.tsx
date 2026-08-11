@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getAllProperties } from "@/lib/data";
-import { renderPropertyPage } from "./[propertySlug]/page";
+import { renderPropertyPage } from "@/app/_property-page";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const properties = await getAllProperties();
