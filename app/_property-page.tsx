@@ -22,11 +22,17 @@ export async function renderPropertyPage(slug: string) {
   ]);
   if (!data) notFound();
 
-  // Foto hero: pakai slot khusus bila diisi, jika kosong fallback ke foto galeri pertama.
-  const heroPhoto = data.property.heroPhotoUrl
-    ? { id: "hero", src: data.property.heroPhotoUrl, alt: `Foto ${data.property.name}` }
-    : data.galleryPhotos[0];
-  if (!heroPhoto) notFound();
+  // Foto hero: prioritas slot khusus, lalu foto galeri pertama, terakhir placeholder.
+  // Jangan pernah notFound() cuma karena foto belum diisi — halaman harus tetap tampil.
+  const heroPhoto =
+    (data.property.heroPhotoUrl
+      ? { id: "hero", src: data.property.heroPhotoUrl, alt: `Foto ${data.property.name}` }
+      : data.galleryPhotos[0]) ??
+    {
+      id: "hero-placeholder",
+      src: `https://picsum.photos/seed/${encodeURIComponent(slug)}-hero/1600/1067`,
+      alt: `Foto ${data.property.name}`,
+    };
 
   return (
     <>
@@ -34,8 +40,10 @@ export async function renderPropertyPage(slug: string) {
       <main className="flex-1">
         <Hero property={data.property} heroPhoto={heroPhoto} />
         <HighlightsStrip highlights={data.highlights} />
-        <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} />
-        <Rooms rooms={data.rooms} property={data.property} />
+        {(data.galleryPhotos.length > 0 || data.tourVideo.src) && (
+          <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} />
+        )}
+        {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} />}
         <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} />
         <Facilities facilities={data.facilities} />
         <Location property={data.property} />
