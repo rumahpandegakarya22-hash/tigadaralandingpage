@@ -4,10 +4,10 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { CtaButton } from "./cta-button";
 import { ContactForm } from "./contact-form";
-import { property } from "@/lib/mock-data";
+import type { Property } from "@/lib/types";
 import { buildWhatsappLink } from "@/lib/utils";
 
-export function CtaSection() {
+export function CtaSection({ property }: { property: Property }) {
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
     `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
@@ -26,10 +26,11 @@ export function CtaSection() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Reveal>
-            <div className="flex h-full flex-col justify-between gap-6 rounded-md bg-primary p-8 text-on-primary">
+            <div className="group flex h-full flex-col justify-between gap-6 rounded-md bg-primary p-8 text-on-primary transition-shadow duration-300 hover:shadow-lg">
               <div>
-                <span className="inline-flex size-12 items-center justify-center rounded-full bg-on-primary/15">
-                  <MessageCircle className="size-6" aria-hidden="true" />
+                <span className="relative inline-flex size-12 items-center justify-center rounded-full bg-on-primary/15 transition-transform duration-200 group-hover:scale-110">
+                  <span className="absolute inset-0 rounded-full bg-on-primary/20 motion-safe:animate-ping" aria-hidden="true" />
+                  <MessageCircle className="relative size-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-heading text-xl font-bold">Chat via WhatsApp</h3>
                 <p className="mt-2 text-sm text-on-primary">

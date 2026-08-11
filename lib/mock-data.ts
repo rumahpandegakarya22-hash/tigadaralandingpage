@@ -29,24 +29,23 @@ export function placeholderPhoto(
 export const property: Property = {
   id: "kost-tiga-dara",
   name: "Kost Tiga Dara",
-  tagline: "Hunian kelas atas untuk profesional muda & mahasiswa",
-  city: "Jakarta Selatan",
-  address: "Jl. Jenderal Sudirman No. 45, RT 03/RW 05",
-  addressDetail: "Kel. Karet Semanggi, Kec. Setiabudi, Jakarta Selatan, DKI Jakarta 12930",
+  tagline: "Hunian nyaman untuk mahasiswa",
+  city: "Sleman",
+  address: "Jl. Pandega Karya No.22, Manggung, RT 13/RW 05",
+  addressDetail: "Kel. Caturtunggal, Kec. Depok, Sleman, DIY 55281",
   directions:
-    "Dari Halte Transjakarta Karet Sudirman, jalan kaki 5 menit ke arah gang Masjid Al-Ikhlas. Kost berada di sisi kanan jalan, gerbang hitam dengan plang emas.",
+    "Dari Jl. Kaliurang, belok ke Jl. Pandega Karya (Gang Cafe UD.Jaya dan Couvee ) , lalu lurus sekitar 300m sampai menemukan gerbang Kost Tiga Dara di sebelah kanan.",
   mapsEmbedUrl:
-    "https://www.google.com/maps?q=Jl.+Jenderal+Sudirman,+Jakarta+Selatan&output=embed",
-  mapsUrl: "https://maps.google.com/?q=Jl.+Jenderal+Sudirman,+Jakarta+Selatan",
-  whatsappNumber: "6281234567890",
-  phoneDisplay: "0812-3456-7890",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.304095992287!2d110.38521589999999!3d-7.7575375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59894b40085b%3A0x280e5694d95aa68d!2sKost%20Tiga%20Dara%20Putri%20UGM!5e0!3m2!1sen!2sid!4v1785232044192!5m2!1sen!2sid",
+  mapsUrl: "https://maps.app.goo.gl/HE8KQt8RzmCACgnm6",
+  whatsappNumber: "6282233343839",
+  phoneDisplay: "0822-3334-3839",
 };
 
 export const highlights: Highlight[] = [
-  { id: "wifi", label: "WiFi Fiber 100 Mbps", icon: "wifi" },
+  { id: "wifi", label: "WiFi Fiber 400 Mbps", icon: "wifi" },
   { id: "security", label: "Keamanan 24 Jam & CCTV", icon: "shield" },
-  { id: "parking", label: "Parkir Motor & Mobil Luas", icon: "car" },
-  { id: "clean", label: "Housekeeping Mingguan", icon: "sparkles" },
+  { id: "parking", label: "Parkir Motor  Luas", icon: "car" },
   { id: "kitchen", label: "Dapur Bersama Lengkap", icon: "utensils" },
   { id: "access", label: "Akses 24 Jam", icon: "clock" },
 ];
@@ -144,7 +143,7 @@ export const facilities: Facility[] = [
   {
     id: "wifi",
     name: "WiFi Fiber Kencang",
-    description: "Internet fiber 100 Mbps yang stabil di seluruh area, cocok untuk kerja dan kuliah online.",
+    description: "Internet fiber 400 Mbps yang stabil di seluruh area, cocok untuk kerja dan kuliah online.",
     icon: "wifi",
     photo: placeholderPhoto("facility-wifi", 1000, 750),
   },

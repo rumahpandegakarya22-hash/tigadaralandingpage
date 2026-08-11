@@ -1,6 +1,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "./container";
-import { property } from "@/lib/mock-data";
+import { Reveal } from "./reveal";
+import type { Property } from "@/lib/types";
 
 const quickLinks = [
   { href: "#kamar", label: "Kamar & Harga" },
@@ -10,18 +11,18 @@ const quickLinks = [
   { href: "#faq", label: "FAQ" },
 ];
 
-export function Footer() {
+export function Footer({ property }: { property: Property }) {
   return (
     <footer className="border-t border-hairline bg-canvas">
       <Container className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-3">
-        <div>
+        <Reveal>
           <a href="#top" className="font-heading text-lg font-bold text-ink">
             Kost Tiga Dara<span className="text-primary">.</span>
           </a>
           <p className="mt-3 text-sm text-ink">{property.tagline}.</p>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={0.06}>
           <h3 className="font-heading text-sm font-semibold text-ink">Navigasi</h3>
           <ul className="mt-4 flex flex-col gap-2.5">
             {quickLinks.map((link) => (
@@ -32,9 +33,9 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal delay={0.12}>
           <h3 className="font-heading text-sm font-semibold text-ink">Kontak</h3>
           <ul className="mt-4 flex flex-col gap-3">
             <li className="flex items-start gap-2 text-sm text-ink">
@@ -50,7 +51,7 @@ export function Footer() {
               halo@kosttigadara.id
             </li>
           </ul>
-        </div>
+        </Reveal>
       </Container>
 
       <div className="border-t border-hairline-soft py-5">

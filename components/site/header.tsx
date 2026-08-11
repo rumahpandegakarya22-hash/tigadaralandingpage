@@ -5,7 +5,8 @@ import { Menu, MessageCircle, X } from "lucide-react";
 import { Container } from "./container";
 import { PropertySelector } from "./property-selector";
 import { CtaButton } from "./cta-button";
-import { property } from "@/lib/mock-data";
+import type { Property } from "@/lib/types";
+import type { PropertySummary } from "@/lib/data";
 import { buildWhatsappLink } from "@/lib/utils";
 
 const navLinks = [
@@ -16,7 +17,15 @@ const navLinks = [
   { href: "#faq", label: "FAQ" },
 ];
 
-export function Header() {
+export function Header({
+  property,
+  properties,
+  activeSlug,
+}: {
+  property: Property;
+  properties: PropertySummary[];
+  activeSlug: string;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
@@ -27,11 +36,14 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-hairline bg-canvas/95 backdrop-blur supports-[backdrop-filter]:bg-canvas/80">
       <Container className="flex h-20 items-center justify-between gap-4">
         <div className="flex items-center gap-3 sm:gap-6">
-          <a href="#top" className="font-heading text-lg font-bold text-ink shrink-0">
+          <a
+            href="#top"
+            className="font-heading text-lg font-bold text-ink shrink-0 transition-transform duration-200 hover:scale-105"
+          >
             Kost Tiga Dara<span className="text-primary">.</span>
           </a>
           <div className="hidden md:block">
-            <PropertySelector properties={[property.name]} activeName={property.name} />
+            <PropertySelector properties={properties} activeSlug={activeSlug} />
           </div>
         </div>
 
@@ -40,9 +52,10 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="font-heading text-sm font-semibold text-ink/80 hover:text-ink transition-colors"
+              className="group relative font-heading text-sm font-semibold text-ink/80 hover:text-ink transition-colors"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-200 group-hover:w-full" />
             </a>
           ))}
         </nav>
@@ -62,7 +75,7 @@ export function Header() {
 
           <button
             type="button"
-            className="lg:hidden inline-flex size-11 items-center justify-center rounded-sm border border-hairline text-ink cursor-pointer"
+            className="lg:hidden inline-flex size-11 items-center justify-center rounded-sm border border-hairline text-ink cursor-pointer transition-transform duration-200 active:scale-90"
             aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -73,10 +86,10 @@ export function Header() {
       </Container>
 
       {menuOpen ? (
-        <div className="lg:hidden border-t border-hairline bg-canvas">
+        <div className="lg:hidden border-t border-hairline bg-canvas animate-in fade-in slide-in-from-top-2 duration-200">
           <Container className="flex flex-col gap-1 py-4">
             <div className="mb-2 md:hidden">
-              <PropertySelector properties={[property.name]} activeName={property.name} />
+              <PropertySelector properties={properties} activeSlug={activeSlug} />
             </div>
             {navLinks.map((link) => (
               <a

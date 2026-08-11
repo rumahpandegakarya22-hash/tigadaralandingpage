@@ -55,7 +55,7 @@ export function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label="Pratinjau foto"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-scrim/90 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-scrim/90 p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <button
@@ -80,7 +80,7 @@ export function Lightbox({
       </button>
 
       <div
-        className="relative flex max-h-[85vh] w-full max-w-4xl items-center justify-center"
+        className="relative flex max-h-[85vh] w-full max-w-4xl items-center justify-center animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative aspect-[3/2] w-full">

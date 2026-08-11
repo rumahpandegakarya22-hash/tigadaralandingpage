@@ -1,7 +1,13 @@
+"use client";
+
 import { forwardRef } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-type CtaButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type CtaButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd" | "onAnimationIteration"
+> & {
   as?: "button" | "a";
   href?: string;
   variant?: "primary" | "secondary" | "tertiary" | "pill";
@@ -35,23 +41,36 @@ export const CtaButton = forwardRef<HTMLButtonElement, CtaButtonProps>(
       className
     );
 
+    const tap = { scale: variant === "tertiary" ? 1 : 0.97 };
+    const hover = { scale: variant === "tertiary" ? 1 : 1.02 };
+
     if (as === "a" && href) {
       return (
-        <a
+        <motion.a
           href={href}
           className={base}
           target={props.target}
           rel={props.rel}
+          whileHover={hover}
+          whileTap={tap}
+          transition={{ duration: 0.15 }}
         >
           {children}
-        </a>
+        </motion.a>
       );
     }
 
     return (
-      <button ref={ref} className={base} {...props}>
+      <motion.button
+        ref={ref}
+        className={base}
+        whileHover={hover}
+        whileTap={tap}
+        transition={{ duration: 0.15 }}
+        {...props}
+      >
         {children}
-      </button>
+      </motion.button>
     );
   }
 );

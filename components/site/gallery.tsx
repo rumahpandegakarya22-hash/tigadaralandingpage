@@ -7,9 +7,15 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { Lightbox } from "./lightbox";
 import { VideoPlayer } from "./video-player";
-import { galleryPhotos, tourVideo } from "@/lib/mock-data";
+import type { GalleryPhoto } from "@/lib/types";
 
-export function Gallery() {
+export function Gallery({
+  galleryPhotos,
+  tourVideo,
+}: {
+  galleryPhotos: GalleryPhoto[];
+  tourVideo: { poster: GalleryPhoto; src: string };
+}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (

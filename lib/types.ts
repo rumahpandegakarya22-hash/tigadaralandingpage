@@ -22,8 +22,8 @@ export type GalleryPhoto = {
   id: string;
   src: string;
   alt: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 };
 
 export type RoomType = {

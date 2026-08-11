@@ -6,11 +6,10 @@ import { MessageCircle, Maximize2 } from "lucide-react";
 import { CtaButton } from "./cta-button";
 import { Lightbox } from "./lightbox";
 import { getSpecIcon } from "./spec-icon";
-import type { RoomType } from "@/lib/types";
-import { property } from "@/lib/mock-data";
+import type { RoomType, Property } from "@/lib/types";
 import { formatRupiah, buildWhatsappLink } from "@/lib/utils";
 
-export function RoomCard({ room }: { room: RoomType }) {
+export function RoomCard({ room, property }: { room: RoomType; property: Property }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
@@ -18,7 +17,7 @@ export function RoomCard({ room }: { room: RoomType }) {
   );
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-card">
+    <div className="group flex flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
@@ -27,7 +26,7 @@ export function RoomCard({ room }: { room: RoomType }) {
       >
         <Image
           src={room.photo.src}
-          alt={`Foto ${room.name} — mockup, foto asli menyusul`}
+          alt={room.photo.alt}
           fill
           loading="lazy"
           sizes="(max-width: 768px) 100vw, 400px"

@@ -3,9 +3,9 @@ import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { StarRating } from "./star-rating";
-import { testimonials } from "@/lib/mock-data";
+import type { Testimonial } from "@/lib/types";
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   if (testimonials.length === 0) {
     return (
       <section id="testimoni" className="bg-surface-soft/40 py-16 sm:py-20">
@@ -33,8 +33,12 @@ export function Testimonials() {
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {testimonials.map((testimonial, index) => (
             <Reveal key={testimonial.id} delay={index * 0.06}>
-              <figure className="flex h-full flex-col gap-4 rounded-md border border-hairline bg-canvas p-6">
-                <Quote className="size-6 text-hairline" aria-hidden="true" fill="currentColor" />
+              <figure className="group flex h-full flex-col gap-4 rounded-md border border-hairline bg-canvas p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-lg">
+                <Quote
+                  className="size-6 text-hairline transition-transform duration-300 group-hover:scale-110 group-hover:text-primary/40"
+                  aria-hidden="true"
+                  fill="currentColor"
+                />
                 <blockquote className="flex-1 text-sm leading-relaxed text-ink">
                   &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>

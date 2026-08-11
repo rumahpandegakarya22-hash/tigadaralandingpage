@@ -19,7 +19,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Kost Tiga Dara — Hunian Nyaman, Kesan Premium",
   description:
-    "Kost premium dengan fasilitas lengkap, lokasi strategis, dan pelayanan setara hotel berbintang. Cek kamar, harga, dan fasilitas selengkapnya.",
+    "Kost Putri dengan fasilitas lengkap, lokasi strategis, dan pelayanan setara hotel berbintang. Cek kamar, harga, dan fasilitas selengkapnya.",
 };
 
 export default function RootLayout({

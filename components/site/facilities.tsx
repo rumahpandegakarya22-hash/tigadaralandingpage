@@ -3,9 +3,9 @@ import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { facilityIconMap } from "./icon-map";
-import { facilities } from "@/lib/mock-data";
+import type { Facility } from "@/lib/types";
 
-export function Facilities() {
+export function Facilities({ facilities }: { facilities: Facility[] }) {
   return (
     <section id="fasilitas" className="py-16 sm:py-20">
       <Container>
@@ -20,19 +20,19 @@ export function Facilities() {
             const Icon = facilityIconMap[facility.icon];
             return (
               <Reveal key={facility.id} delay={index * 0.05}>
-                <div className="flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas">
-                  <div className="relative aspect-[4/3] w-full">
+                <div className="group flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
                     <Image
                       src={facility.photo.src}
-                      alt={`Foto ${facility.name} — mockup, foto asli menyusul`}
+                      alt={facility.photo.alt}
                       fill
                       loading="lazy"
                       sizes="(max-width: 768px) 100vw, 300px"
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
                   <div className="flex flex-1 flex-col gap-2 p-4">
-                    <span className="inline-flex size-9 items-center justify-center rounded-full bg-surface-soft text-primary">
+                    <span className="inline-flex size-9 items-center justify-center rounded-full bg-surface-soft text-primary transition-all duration-200 group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary">
                       <Icon className="size-5" aria-hidden="true" />
                     </span>
                     <h3 className="font-heading text-base font-semibold text-ink">

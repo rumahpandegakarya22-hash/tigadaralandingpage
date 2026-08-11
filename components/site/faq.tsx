@@ -7,9 +7,9 @@ import {
 import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
-import { faqs } from "@/lib/mock-data";
+import type { FaqItem } from "@/lib/types";
 
-export function Faq() {
+export function Faq({ faqs }: { faqs: FaqItem[] }) {
   return (
     <section id="faq" className="py-16 sm:py-20">
       <Container className="max-w-3xl">

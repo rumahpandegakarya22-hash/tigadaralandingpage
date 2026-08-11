@@ -4,9 +4,9 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { CopyAddressButton } from "./copy-address-button";
 import { CtaButton } from "./cta-button";
-import { property } from "@/lib/mock-data";
+import type { Property } from "@/lib/types";
 
-export function Location() {
+export function Location({ property }: { property: Property }) {
   const fullAddress = `${property.address}, ${property.addressDetail}`;
 
   return (
