@@ -26,6 +26,7 @@ export const landingProperties = sqliteTable("landing_properties", {
   phoneDisplay: text("phone_display").notNull(),
   tourVideoUrl: text("tour_video_url").notNull().default(""),
   tourVideoPosterUrl: text("tour_video_poster_url").notNull().default(""),
+  tourVideoEnabled: integer("tour_video_enabled").notNull().default(1),
   heroPhotoUrl: text("hero_photo_url").notNull().default(""),
   ...timestamps,
 });
@@ -67,6 +68,17 @@ export const landingRooms = sqliteTable("landing_rooms", {
   specs: text("specs", { mode: "json" }).notNull().$type<string[]>(),
   note: text("note"),
   order: integer("order").notNull().default(0),
+  ...timestamps,
+});
+
+// Foto per NOMOR kamar fisik (kamar.no_kamar) untuk landing.
+export const landingKamarPhotos = sqliteTable("landing_kamar_photos", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  noKamar: integer("no_kamar").notNull(),
+  url: text("url").notNull(),
+  alt: text("alt"),
+  order: integer("order").notNull().default(0),
+  isCover: integer("is_cover").notNull().default(0),
   ...timestamps,
 });
 

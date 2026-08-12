@@ -15,6 +15,11 @@ export const DEFAULT_COPY: LandingCopy = {
   gallery_desc: "Lihat langsung kondisi setiap sudut properti — dari kamar, dapur, hingga ruang bersama.",
   gallery_video_title: "Video Tur Singkat",
 
+  // Foto Setiap Nomor Kamar
+  kamar_photos_eyebrow: "Foto Kamar",
+  kamar_photos_title: "Foto Setiap Nomor Kamar",
+  kamar_photos_desc: "Lihat kondisi tiap kamar secara langsung sebelum memilih.",
+
   // Kamar & Harga
   rooms_eyebrow: "Kamar & Harga",
   rooms_title: "Pilih Tipe Kamar Sesuai Kebutuhan",

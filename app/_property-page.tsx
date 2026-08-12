@@ -5,6 +5,7 @@ import { Hero } from "@/components/site/hero";
 import { HighlightsStrip } from "@/components/site/highlights-strip";
 import { Gallery } from "@/components/site/gallery";
 import { Rooms } from "@/components/site/rooms";
+import { RoomNumberGallery } from "@/components/site/room-number-gallery";
 import { AvailabilityChecker } from "@/components/site/availability-checker";
 import { Facilities } from "@/components/site/facilities";
 import { Location } from "@/components/site/location";
@@ -44,6 +45,7 @@ export async function renderPropertyPage(slug: string) {
           <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} copy={data.copy} />
         )}
         {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} copy={data.copy} />}
+        {data.kamarPhotos.length > 0 && <RoomNumberGallery groups={data.kamarPhotos} copy={data.copy} />}
         <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} copy={data.copy} />
         <Facilities facilities={data.facilities} copy={data.copy} />
         <Location property={data.property} copy={data.copy} />

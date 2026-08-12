@@ -7,6 +7,7 @@ import {
   landingGalleryPhotos,
   landingRooms,
   landingRoomPhotos,
+  landingKamarPhotos,
   landingFacilities,
   landingTestimonials,
   landingFaqs,
@@ -30,12 +31,13 @@ export type LandingData = {
   property: Property;
   highlights: Highlight[];
   galleryPhotos: GalleryPhoto[];
-  tourVideo: { poster: GalleryPhoto; src: string };
+  tourVideo: { enabled: boolean; poster: GalleryPhoto; src: string };
   rooms: RoomType[];
   facilities: Facility[];
   testimonials: Testimonial[];
   faqs: FaqItem[];
   copy: LandingCopy;
+  kamarPhotos: { noKamar: number; cover: GalleryPhoto; photos: GalleryPhoto[] }[];
 };
 
 // Tipe kamar jarang berubah → cache lama (1 jam), tag "kamar-types".
@@ -75,7 +77,7 @@ export const getLandingData = unstable_cache(
 
   const propertyId = propertyRow.id;
 
-  const [highlightRows, galleryRows, roomRows, roomPhotoRows, facilityRows, testimonialRows, faqRows, copyRows] =
+  const [highlightRows, galleryRows, roomRows, roomPhotoRows, facilityRows, testimonialRows, faqRows, copyRows, kamarPhotoRows] =
     await Promise.all([
       db
         .select()
@@ -112,6 +114,7 @@ export const getLandingData = unstable_cache(
         .where(eq(landingFaqs.propertyId, propertyId))
         .orderBy(asc(landingFaqs.order)),
       db.select({ key: landingCopy.key, value: landingCopy.value }).from(landingCopy),
+      db.select().from(landingKamarPhotos).orderBy(asc(landingKamarPhotos.order)),
     ]);
 
   return {
@@ -145,6 +148,7 @@ export const getLandingData = unstable_cache(
         alt: p.alt,
       })),
     tourVideo: {
+      enabled: propertyRow.tourVideoEnabled !== 0,
       poster: {
         id: "tour-poster",
         src: propertyRow.tourVideoPosterUrl || galleryRows[0]?.url || "",
@@ -194,6 +198,21 @@ export const getLandingData = unstable_cache(
       answer: f.answer,
     })),
     copy: mergeCopy(copyRows),
+    // Foto per NOMOR kamar → dikelompokkan per no_kamar (urut nomor), tiap grup
+    // punya cover + daftar foto (urut `order`).
+    kamarPhotos: (() => {
+      const byNo = new Map<number, GalleryPhoto[]>();
+      const coverByNo = new Map<number, GalleryPhoto>();
+      for (const p of kamarPhotoRows) {
+        const gp: GalleryPhoto = { id: `kamar-${p.id}`, src: p.url, alt: p.alt ?? `Foto kamar ${p.noKamar}` };
+        if (!byNo.has(p.noKamar)) byNo.set(p.noKamar, []);
+        byNo.get(p.noKamar)!.push(gp);
+        if (p.isCover === 1) coverByNo.set(p.noKamar, gp);
+      }
+      return [...byNo.entries()]
+        .sort((a, b) => a[0] - b[0])
+        .map(([noKamar, photos]) => ({ noKamar, cover: coverByNo.get(noKamar) ?? photos[0], photos }));
+    })(),
   };
   },
   ["landing-data"],

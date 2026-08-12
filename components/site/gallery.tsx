@@ -16,7 +16,7 @@ export function Gallery({
   copy,
 }: {
   galleryPhotos: GalleryPhoto[];
-  tourVideo: { poster: GalleryPhoto; src: string };
+  tourVideo: { enabled: boolean; poster: GalleryPhoto; src: string };
   copy: LandingCopy;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -65,14 +65,16 @@ export function Gallery({
           ))}
         </div>
 
-        <Reveal className="mt-10" delay={0.1}>
-          <h3 className="mb-4 font-heading text-lg font-semibold text-ink">
-            {copy.gallery_video_title}
-          </h3>
-          <div className="mx-auto max-w-3xl">
-            <VideoPlayer poster={tourVideo.poster} src={tourVideo.src} />
-          </div>
-        </Reveal>
+        {tourVideo.enabled && (
+          <Reveal className="mt-10" delay={0.1}>
+            <h3 className="mb-4 font-heading text-lg font-semibold text-ink">
+              {copy.gallery_video_title}
+            </h3>
+            <div className="mx-auto max-w-3xl">
+              <VideoPlayer poster={tourVideo.poster} src={tourVideo.src} />
+            </div>
+          </Reveal>
+        )}
       </Container>
 
       <Lightbox
