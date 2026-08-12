@@ -20,6 +20,9 @@ export const DEFAULT_COPY: LandingCopy = {
   rooms_title: "Pilih Tipe Kamar Sesuai Kebutuhan",
   rooms_desc: "Semua harga transparan, sudah termasuk kebersihan area umum. Bandingkan spesifikasi tiap tipe sebelum menghubungi kami.",
   rooms_card_cta: "Tanya Kamar Ini",
+  rooms_compare_bar_cta: "Bandingkan",
+  rooms_compare_title: "Perbandingan Tipe Kamar",
+  rooms_compare_min_hint: "pilih minimal 2 tipe kamar",
 
   // Cek Ketersediaan
   availability_eyebrow: "Cek Ketersediaan",

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MessageCircle, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { CtaButton } from "./cta-button";
 import { Lightbox } from "./lightbox";
+import { CompareToggle } from "./room-compare";
 import { getSpecIcon } from "./spec-icon";
 import type { RoomType, Property } from "@/lib/types";
 import { formatRupiah, buildWhatsappLink, cn } from "@/lib/utils";
@@ -136,17 +137,20 @@ export function RoomCard({ room, property, ctaLabel }: { room: RoomType; propert
           </div>
           {room.note ? <p className="mt-1 text-xs text-ink">{room.note}</p> : null}
 
-          <CtaButton
-            as="a"
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="primary"
-            className="mt-4 w-full"
-          >
-            <MessageCircle className="size-4" aria-hidden="true" />
-            {ctaLabel}
-          </CtaButton>
+          <div className="mt-4 flex flex-col gap-2">
+            <CompareToggle roomId={room.id} />
+            <CtaButton
+              as="a"
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              className="w-full"
+            >
+              <MessageCircle className="size-4" aria-hidden="true" />
+              {ctaLabel}
+            </CtaButton>
+          </div>
         </div>
       </div>
 
