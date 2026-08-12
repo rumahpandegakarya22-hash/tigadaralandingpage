@@ -4,15 +4,16 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { facilityIconMap } from "./icon-map";
 import type { Facility } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 
-export function Facilities({ facilities }: { facilities: Facility[] }) {
+export function Facilities({ facilities, copy }: { facilities: Facility[]; copy: LandingCopy }) {
   return (
     <section id="fasilitas" className="py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Fasilitas Umum"
-          title="Fasilitas Bersama untuk Semua Penghuni"
-          description="Area umum yang lengkap dan terawat, bisa digunakan bebas oleh seluruh penghuni kost."
+          eyebrow={copy.facilities_eyebrow}
+          title={copy.facilities_title}
+          description={copy.facilities_desc}
         />
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">

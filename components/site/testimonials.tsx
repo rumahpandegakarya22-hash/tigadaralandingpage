@@ -4,15 +4,16 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { StarRating } from "./star-rating";
 import type { Testimonial } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 
-export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+export function Testimonials({ testimonials, copy }: { testimonials: Testimonial[]; copy: LandingCopy }) {
   if (testimonials.length === 0) {
     return (
       <section id="testimoni" className="bg-surface-soft/40 py-16 sm:py-20">
         <Container>
           <SectionHeading
-            eyebrow="Testimoni"
-            title="Apa Kata Penghuni"
+            eyebrow={copy.testimonials_eyebrow}
+            title={copy.testimonials_title}
             align="center"
           />
           <p className="mt-8 text-center text-ink">Segera hadir.</p>
@@ -25,9 +26,9 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
     <section id="testimoni" className="bg-surface-soft/40 py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Testimoni"
-          title="Apa Kata Penghuni"
-          description="Pengalaman nyata dari mereka yang sudah tinggal di sini."
+          eyebrow={copy.testimonials_eyebrow}
+          title={copy.testimonials_title}
+          description={copy.testimonials_desc}
         />
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">

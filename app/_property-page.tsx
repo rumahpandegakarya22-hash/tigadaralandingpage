@@ -38,18 +38,18 @@ export async function renderPropertyPage(slug: string) {
     <>
       <Header property={data.property} properties={properties} activeSlug={slug} />
       <main className="flex-1">
-        <Hero property={data.property} heroPhoto={heroPhoto} />
+        <Hero property={data.property} heroPhoto={heroPhoto} copy={data.copy} />
         <HighlightsStrip highlights={data.highlights} />
         {(data.galleryPhotos.length > 0 || data.tourVideo.src) && (
-          <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} />
+          <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} copy={data.copy} />
         )}
-        {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} />}
-        <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} />
-        <Facilities facilities={data.facilities} />
-        <Location property={data.property} />
-        <Testimonials testimonials={data.testimonials} />
-        <Faq faqs={data.faqs} />
-        <CtaSection property={data.property} />
+        {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} copy={data.copy} />}
+        <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} copy={data.copy} />
+        <Facilities facilities={data.facilities} copy={data.copy} />
+        <Location property={data.property} copy={data.copy} />
+        <Testimonials testimonials={data.testimonials} copy={data.copy} />
+        <Faq faqs={data.faqs} copy={data.copy} />
+        <CtaSection property={data.property} copy={data.copy} />
       </main>
       <Footer property={data.property} />
       <FloatingWhatsapp property={data.property} />

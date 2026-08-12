@@ -7,6 +7,7 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { CtaButton } from "./cta-button";
 import type { Property } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink, cn } from "@/lib/utils";
 
 type AvailabilityResult = {
@@ -21,9 +22,11 @@ type Status = "idle" | "loading" | "success" | "error";
 export function AvailabilityChecker({
   property,
   kamarTypes,
+  copy,
 }: {
   property: Property;
   kamarTypes: string[];
+  copy: LandingCopy;
 }) {
   const [tipeKamar, setTipeKamar] = useState(kamarTypes[0] ?? "");
   const [checkInDate, setCheckInDate] = useState("");
@@ -71,9 +74,9 @@ export function AvailabilityChecker({
     <section id="cek-kamar" className="border-y border-hairline py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Cek Ketersediaan"
-          title="Kamar Masih Tersedia?"
-          description="Masukkan rencana tanggal masuk dan tipe kamar untuk cek ketersediaan secara langsung dari data terkini."
+          eyebrow={copy.availability_eyebrow}
+          title={copy.availability_title}
+          description={copy.availability_desc}
           align="center"
           className="mx-auto"
         />
@@ -131,7 +134,7 @@ export function AvailabilityChecker({
                 ) : (
                   <Search className="size-4" aria-hidden="true" />
                 )}
-                {status === "loading" ? "Mengecek..." : "Cek Ketersediaan"}
+                {status === "loading" ? "Mengecek..." : copy.availability_submit}
               </CtaButton>
             </form>
 

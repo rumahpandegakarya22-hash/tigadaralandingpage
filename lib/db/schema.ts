@@ -111,6 +111,13 @@ export const landingTestimonials = sqliteTable("landing_testimonials", {
   ...timestamps,
 });
 
+// Teks statis halaman (heading section, label tombol) yang bisa diedit Mini App.
+export const landingCopy = sqliteTable("landing_copy", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull().default(""),
+  updatedAt: text("updated_at"),
+});
+
 export const landingFaqs = sqliteTable("landing_faqs", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   propertyId: integer("property_id")

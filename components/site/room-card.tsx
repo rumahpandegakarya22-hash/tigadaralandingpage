@@ -9,7 +9,7 @@ import { getSpecIcon } from "./spec-icon";
 import type { RoomType, Property } from "@/lib/types";
 import { formatRupiah, buildWhatsappLink, cn } from "@/lib/utils";
 
-export function RoomCard({ room, property }: { room: RoomType; property: Property }) {
+export function RoomCard({ room, property, ctaLabel }: { room: RoomType; property: Property; ctaLabel: string }) {
   const photos = room.photos.length ? room.photos : [room.photo];
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
@@ -145,7 +145,7 @@ export function RoomCard({ room, property }: { room: RoomType; property: Propert
             className="mt-4 w-full"
           >
             <MessageCircle className="size-4" aria-hidden="true" />
-            Tanya Kamar Ini
+            {ctaLabel}
           </CtaButton>
         </div>
       </div>

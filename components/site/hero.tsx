@@ -6,6 +6,7 @@ import { MessageCircle, ChevronDown } from "lucide-react";
 import { Container } from "./container";
 import { CtaButton } from "./cta-button";
 import type { Property, GalleryPhoto } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink } from "@/lib/utils";
 
 const heroItem = {
@@ -13,7 +14,7 @@ const heroItem = {
   show: { opacity: 1, y: 0 },
 };
 
-export function Hero({ property, heroPhoto }: { property: Property; heroPhoto: GalleryPhoto }) {
+export function Hero({ property, heroPhoto, copy }: { property: Property; heroPhoto: GalleryPhoto; copy: LandingCopy }) {
   const shouldReduceMotion = useReducedMotion();
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
@@ -78,7 +79,7 @@ export function Hero({ property, heroPhoto }: { property: Property; heroPhoto: G
               className="mt-8 flex flex-col gap-3 sm:flex-row"
             >
               <CtaButton as="a" href="#kamar" variant="primary" size="lg">
-                Lihat Kamar &amp; Harga
+                {copy.hero_cta_primary}
               </CtaButton>
               <CtaButton
                 as="a"
@@ -90,7 +91,7 @@ export function Hero({ property, heroPhoto }: { property: Property; heroPhoto: G
                 className="!bg-canvas/95"
               >
                 <MessageCircle className="size-5" aria-hidden="true" />
-                Hubungi Kami
+                {copy.hero_cta_secondary}
               </CtaButton>
             </motion.div>
           </motion.div>

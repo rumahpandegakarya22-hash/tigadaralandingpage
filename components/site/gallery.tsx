@@ -8,13 +8,16 @@ import { Reveal } from "./reveal";
 import { Lightbox } from "./lightbox";
 import { VideoPlayer } from "./video-player";
 import type { GalleryPhoto } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 
 export function Gallery({
   galleryPhotos,
   tourVideo,
+  copy,
 }: {
   galleryPhotos: GalleryPhoto[];
   tourVideo: { poster: GalleryPhoto; src: string };
+  copy: LandingCopy;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -22,9 +25,9 @@ export function Gallery({
     <section id="galeri" className="py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Galeri"
-          title="Foto & Video Suasana Kost"
-          description="Lihat langsung kondisi setiap sudut properti — dari kamar, dapur, hingga ruang bersama."
+          eyebrow={copy.gallery_eyebrow}
+          title={copy.gallery_title}
+          description={copy.gallery_desc}
         />
 
         <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:grid-rows-2">
@@ -64,7 +67,7 @@ export function Gallery({
 
         <Reveal className="mt-10" delay={0.1}>
           <h3 className="mb-4 font-heading text-lg font-semibold text-ink">
-            Video Tur Singkat
+            {copy.gallery_video_title}
           </h3>
           <div className="mx-auto max-w-3xl">
             <VideoPlayer poster={tourVideo.poster} src={tourVideo.src} />

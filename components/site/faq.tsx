@@ -8,15 +8,16 @@ import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import type { FaqItem } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 
-export function Faq({ faqs }: { faqs: FaqItem[] }) {
+export function Faq({ faqs, copy }: { faqs: FaqItem[]; copy: LandingCopy }) {
   return (
     <section id="faq" className="py-16 sm:py-20">
       <Container className="max-w-3xl">
         <SectionHeading
-          eyebrow="FAQ"
-          title="Pertanyaan yang Sering Diajukan"
-          description="Masih ragu? Cek dulu jawaban dari pertanyaan yang paling sering ditanyakan."
+          eyebrow={copy.faq_eyebrow}
+          title={copy.faq_title}
+          description={copy.faq_desc}
           align="center"
         />
 

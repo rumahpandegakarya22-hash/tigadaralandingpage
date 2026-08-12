@@ -10,7 +10,9 @@ import {
   landingFacilities,
   landingTestimonials,
   landingFaqs,
+  landingCopy,
 } from "./db/schema";
+import { mergeCopy, type LandingCopy } from "./copy";
 import type {
   Property,
   Highlight,
@@ -33,6 +35,7 @@ export type LandingData = {
   facilities: Facility[];
   testimonials: Testimonial[];
   faqs: FaqItem[];
+  copy: LandingCopy;
 };
 
 // Tipe kamar jarang berubah → cache lama (1 jam), tag "kamar-types".
@@ -72,7 +75,7 @@ export const getLandingData = unstable_cache(
 
   const propertyId = propertyRow.id;
 
-  const [highlightRows, galleryRows, roomRows, roomPhotoRows, facilityRows, testimonialRows, faqRows] =
+  const [highlightRows, galleryRows, roomRows, roomPhotoRows, facilityRows, testimonialRows, faqRows, copyRows] =
     await Promise.all([
       db
         .select()
@@ -108,6 +111,7 @@ export const getLandingData = unstable_cache(
         .from(landingFaqs)
         .where(eq(landingFaqs.propertyId, propertyId))
         .orderBy(asc(landingFaqs.order)),
+      db.select({ key: landingCopy.key, value: landingCopy.value }).from(landingCopy),
     ]);
 
   return {
@@ -189,6 +193,7 @@ export const getLandingData = unstable_cache(
       question: f.question,
       answer: f.answer,
     })),
+    copy: mergeCopy(copyRows),
   };
   },
   ["landing-data"],

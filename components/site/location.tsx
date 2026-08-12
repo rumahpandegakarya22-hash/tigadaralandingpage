@@ -5,17 +5,18 @@ import { Reveal } from "./reveal";
 import { CopyAddressButton } from "./copy-address-button";
 import { CtaButton } from "./cta-button";
 import type { Property } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 
-export function Location({ property }: { property: Property }) {
+export function Location({ property, copy }: { property: Property; copy: LandingCopy }) {
   const fullAddress = `${property.address}, ${property.addressDetail}`;
 
   return (
     <section id="lokasi" className="py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Lokasi"
-          title="Mudah Dijangkau, Strategis untuk Aktivitas Harian"
-          description="Cek jarak dan rute menuju kost sebelum berkunjung langsung."
+          eyebrow={copy.location_eyebrow}
+          title={copy.location_title}
+          description={copy.location_desc}
         />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
@@ -36,7 +37,7 @@ export function Location({ property }: { property: Property }) {
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
                 <div>
-                  <h3 className="font-heading text-base font-semibold text-ink">Alamat Lengkap</h3>
+                  <h3 className="font-heading text-base font-semibold text-ink">{copy.location_address_label}</h3>
                   <p className="mt-1 text-sm text-ink">{fullAddress}</p>
                 </div>
               </div>
@@ -46,7 +47,7 @@ export function Location({ property }: { property: Property }) {
               <div className="flex items-start gap-3 border-t border-hairline-soft pt-5">
                 <Navigation className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
                 <div>
-                  <h3 className="font-heading text-base font-semibold text-ink">Petunjuk Arah</h3>
+                  <h3 className="font-heading text-base font-semibold text-ink">{copy.location_directions_label}</h3>
                   <p className="mt-1 text-sm text-ink">{property.directions}</p>
                 </div>
               </div>

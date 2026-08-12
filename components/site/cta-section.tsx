@@ -5,9 +5,10 @@ import { Reveal } from "./reveal";
 import { CtaButton } from "./cta-button";
 import { ContactForm } from "./contact-form";
 import type { Property } from "@/lib/types";
+import type { LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink } from "@/lib/utils";
 
-export function CtaSection({ property }: { property: Property }) {
+export function CtaSection({ property, copy }: { property: Property; copy: LandingCopy }) {
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
     `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
@@ -17,9 +18,9 @@ export function CtaSection({ property }: { property: Property }) {
     <section id="kontak" className="py-16 sm:py-20">
       <Container>
         <SectionHeading
-          eyebrow="Hubungi Kami"
-          title="Siap Menempati Kamar Impian Anda?"
-          description="Chat langsung via WhatsApp, atau tinggalkan nomor Anda agar kami yang menghubungi balik."
+          eyebrow={copy.cta_eyebrow}
+          title={copy.cta_title}
+          description={copy.cta_desc}
           align="center"
           className="mx-auto"
         />
@@ -32,7 +33,7 @@ export function CtaSection({ property }: { property: Property }) {
                   <span className="absolute inset-0 rounded-full bg-on-primary/20 motion-safe:animate-ping" aria-hidden="true" />
                   <MessageCircle className="relative size-6" aria-hidden="true" />
                 </span>
-                <h3 className="mt-4 font-heading text-xl font-bold">Chat via WhatsApp</h3>
+                <h3 className="mt-4 font-heading text-xl font-bold">{copy.cta_whatsapp_title}</h3>
                 <p className="mt-2 text-sm text-on-primary">
                   Tanya ketersediaan kamar, jadwal survei, atau nego harga langsung dengan pemilik.
                   Respon cepat setiap hari.
@@ -58,7 +59,7 @@ export function CtaSection({ property }: { property: Property }) {
 
           <Reveal delay={0.1}>
             <div className="h-full rounded-md border border-hairline bg-canvas p-8">
-              <h3 className="font-heading text-xl font-bold text-ink">Minta Dihubungi Balik</h3>
+              <h3 className="font-heading text-xl font-bold text-ink">{copy.cta_form_title}</h3>
               <p className="mt-2 text-sm text-ink">
                 Tinggalkan nama dan nomor Anda, tim kami akan segera menghubungi.
               </p>
