@@ -11,6 +11,7 @@ import { buildWhatsappLink } from "@/lib/utils";
 
 const navLinks = [
   { href: "#kamar", label: "Kamar & Harga" },
+  { href: "#cek-kamar", label: "Cek Ketersediaan" },
   { href: "#fasilitas", label: "Fasilitas" },
   { href: "#lokasi", label: "Lokasi" },
   { href: "#testimoni", label: "Testimoni" },

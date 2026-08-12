@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { asc, eq } from "drizzle-orm";
 import { db, client } from "./db/client";
 import {
@@ -6,6 +6,7 @@ import {
   landingHighlights,
   landingGalleryPhotos,
   landingRooms,
+  landingRoomPhotos,
   landingFacilities,
   landingTestimonials,
   landingFaqs,
@@ -34,22 +35,34 @@ export type LandingData = {
   faqs: FaqItem[];
 };
 
-export const getKamarTypes = cache(async (): Promise<string[]> => {
-  const res = await client.execute(
-    "SELECT DISTINCT tipe_kamar FROM kamar WHERE tipe_kamar IS NOT NULL ORDER BY tipe_kamar"
-  );
-  return res.rows.map((r) => r.tipe_kamar as string);
-});
+// Tipe kamar jarang berubah → cache lama (1 jam), tag "kamar-types".
+export const getKamarTypes = unstable_cache(
+  async (): Promise<string[]> => {
+    const res = await client.execute(
+      "SELECT DISTINCT tipe_kamar FROM kamar WHERE tipe_kamar IS NOT NULL ORDER BY tipe_kamar"
+    );
+    return res.rows.map((r) => r.tipe_kamar as string);
+  },
+  ["kamar-types"],
+  { tags: ["kamar-types"], revalidate: 3600 }
+);
 
-export const getAllProperties = cache(async (): Promise<PropertySummary[]> => {
-  const rows = await db
-    .select({ slug: landingProperties.slug, name: landingProperties.name })
-    .from(landingProperties)
-    .orderBy(asc(landingProperties.id));
-  return rows;
-});
+// Daftar properti untuk nav/selector → dibatalkan lewat tag "properties" saat admin edit.
+export const getAllProperties = unstable_cache(
+  async (): Promise<PropertySummary[]> => {
+    const rows = await db
+      .select({ slug: landingProperties.slug, name: landingProperties.name })
+      .from(landingProperties)
+      .orderBy(asc(landingProperties.id));
+    return rows;
+  },
+  ["all-properties"],
+  { tags: ["properties"], revalidate: 3600 }
+);
 
-export const getLandingData = cache(async (slug: string): Promise<LandingData | null> => {
+// Konten landing per-slug → cache, dibatalkan lewat tag "landing" saat admin edit.
+export const getLandingData = unstable_cache(
+  async (slug: string): Promise<LandingData | null> => {
   const [propertyRow] = await db
     .select()
     .from(landingProperties)
@@ -59,7 +72,7 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
 
   const propertyId = propertyRow.id;
 
-  const [highlightRows, galleryRows, roomRows, facilityRows, testimonialRows, faqRows] =
+  const [highlightRows, galleryRows, roomRows, roomPhotoRows, facilityRows, testimonialRows, faqRows] =
     await Promise.all([
       db
         .select()
@@ -76,6 +89,10 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
         .from(landingRooms)
         .where(eq(landingRooms.propertyId, propertyId))
         .orderBy(asc(landingRooms.order)),
+      db
+        .select()
+        .from(landingRoomPhotos)
+        .orderBy(asc(landingRoomPhotos.order)),
       db
         .select()
         .from(landingFacilities)
@@ -114,11 +131,15 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
       label: h.label,
       icon: h.icon as Highlight["icon"],
     })),
-    galleryPhotos: galleryRows.map((p) => ({
-      id: String(p.id),
-      src: p.url,
-      alt: p.alt,
-    })),
+    // Foto cover galeri dipimpin ke depan → jadi latar hero (bila hero_photo_url
+    // kosong) sekaligus slide pertama; sisanya ikut urutan `order`.
+    galleryPhotos: [...galleryRows]
+      .sort((a, b) => (b.isCover ? 1 : 0) - (a.isCover ? 1 : 0))
+      .map((p) => ({
+        id: String(p.id),
+        src: p.url,
+        alt: p.alt,
+      })),
     tourVideo: {
       poster: {
         id: "tour-poster",
@@ -127,16 +148,27 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
       },
       src: propertyRow.tourVideoUrl,
     },
-    rooms: roomRows.map((r) => ({
-      id: String(r.id),
-      name: r.name,
-      price: r.price,
-      photo: { id: `room-${r.id}`, src: r.photoUrl, alt: r.photoAlt },
-      size: r.size,
-      bed: r.bed,
-      specs: r.specs,
-      note: r.note ?? undefined,
-    })),
+    rooms: roomRows.map((r) => {
+      const own = roomPhotoRows.filter((p) => p.roomId === r.id);
+      const photos: GalleryPhoto[] = own.length
+        ? own.map((p) => ({ id: `roomphoto-${p.id}`, src: p.url, alt: p.alt ?? r.photoAlt }))
+        : [{ id: `room-${r.id}`, src: r.photoUrl, alt: r.photoAlt }];
+      const coverRow = own.find((p) => p.isCover === 1);
+      const cover: GalleryPhoto = coverRow
+        ? { id: `roomphoto-${coverRow.id}`, src: coverRow.url, alt: coverRow.alt ?? r.photoAlt }
+        : photos[0];
+      return {
+        id: String(r.id),
+        name: r.name,
+        price: r.price,
+        photo: cover,
+        photos,
+        size: r.size,
+        bed: r.bed,
+        specs: r.specs,
+        note: r.note ?? undefined,
+      };
+    }),
     facilities: facilityRows.map((f) => ({
       id: String(f.id),
       name: f.name,
@@ -158,4 +190,7 @@ export const getLandingData = cache(async (slug: string): Promise<LandingData | 
       answer: f.answer,
     })),
   };
-});
+  },
+  ["landing-data"],
+  { tags: ["landing"], revalidate: 300 }
+);

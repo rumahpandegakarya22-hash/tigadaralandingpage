@@ -31,7 +31,8 @@ export type RoomType = {
   id: string;
   name: string;
   price: number;
-  photo: GalleryPhoto;
+  photo: GalleryPhoto;       // cover (fallback foto pertama / photoUrl lama)
+  photos: GalleryPhoto[];    // semua foto kamar untuk slideshow lightbox
   size: string;
   bed: string;
   specs: string[];

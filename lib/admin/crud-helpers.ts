@@ -2,7 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { db } from "@/lib/db/client";
 import { isAdminAuthenticated } from "@/lib/session";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 /** Semua Server Action admin WAJIB panggil ini duluan — proxy.ts cuma optimistic check. */
 export async function requireAdmin() {
@@ -75,4 +75,7 @@ export async function nextOrder<T extends AnyTable>(table: T, propertyId: number
 export function revalidateProperty(slug: string) {
   revalidatePath(`/${slug}`);
   revalidatePath("/");
+  // Batalkan Data Cache (unstable_cache) untuk konten landing + daftar properti.
+  revalidateTag("landing", "max");
+  revalidateTag("properties", "max");
 }

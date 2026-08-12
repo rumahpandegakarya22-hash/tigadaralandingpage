@@ -18,7 +18,8 @@ export function Reveal({
       className={className}
       initial={shouldReduceMotion ? undefined : { opacity: 0, y: 24 }}
       whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      // once: false -> animasi jalan tiap kali masuk viewport, baik scroll ke bawah maupun ke atas.
+      viewport={{ once: false, margin: "-80px" }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
     >
       {children}

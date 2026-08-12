@@ -74,6 +74,7 @@ export const rooms: RoomType[] = [
     name: "Tipe A — Superior",
     price: 2500000,
     photo: placeholderPhoto("kostku-room-superior", 1200, 900),
+    photos: [],
     size: "3 x 4 m",
     bed: "Kasur queen 160x200",
     specs: [
@@ -90,6 +91,7 @@ export const rooms: RoomType[] = [
     name: "Tipe B — Deluxe",
     price: 1900000,
     photo: placeholderPhoto("kostku-room-deluxe", 1200, 900),
+    photos: [],
     size: "3 x 3 m",
     bed: "Kasur single 120x200",
     specs: [
@@ -105,6 +107,7 @@ export const rooms: RoomType[] = [
     name: "Tipe C — Standard",
     price: 1400000,
     photo: placeholderPhoto("kostku-room-standard", 1200, 900),
+    photos: [],
     size: "2.5 x 3 m",
     bed: "Kasur single 120x200",
     specs: ["Kipas angin", "Kamar mandi luar (bersama)", "Meja belajar", "Lemari pakaian"],

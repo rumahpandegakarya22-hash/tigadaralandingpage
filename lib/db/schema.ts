@@ -49,6 +49,7 @@ export const landingGalleryPhotos = sqliteTable("landing_gallery_photos", {
   url: text("url").notNull(),
   alt: text("alt").notNull(),
   order: integer("order").notNull().default(0),
+  isCover: integer("is_cover").notNull().default(0),
   ...timestamps,
 });
 
@@ -66,6 +67,19 @@ export const landingRooms = sqliteTable("landing_rooms", {
   specs: text("specs", { mode: "json" }).notNull().$type<string[]>(),
   note: text("note"),
   order: integer("order").notNull().default(0),
+  ...timestamps,
+});
+
+// Foto per kamar untuk slideshow di kartu tipe kamar.
+export const landingRoomPhotos = sqliteTable("landing_room_photos", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  roomId: integer("room_id")
+    .notNull()
+    .references(() => landingRooms.id, { onDelete: "cascade" }),
+  url: text("url").notNull(),
+  alt: text("alt").notNull(),
+  order: integer("order").notNull().default(0),
+  isCover: integer("is_cover").notNull().default(0),
   ...timestamps,
 });
 

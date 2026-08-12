@@ -15,31 +15,30 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const [totalResult, availableResult] = await Promise.all([
-      client.execute({
-        sql: "SELECT COUNT(*) AS total FROM kamar WHERE tipe_kamar = ?",
-        args: [tipe_kamar],
-      }),
-      client.execute({
-        sql: `SELECT COUNT(*) AS available
-              FROM kamar k
-              WHERE k.tipe_kamar = ?
-                AND k.no_kamar NOT IN (
-                  SELECT CAST(oh.no_kamar AS INTEGER)
-                  FROM occupancy_history oh
-                  WHERE oh.status = 'Check-in'
-                )
-                AND k.no_kamar NOT IN (
-                  SELECT b.kamar_no
-                  FROM booking b
-                  WHERE b.status_booking = 'Check-in'
-                )`,
-        args: [tipe_kamar],
-      }),
-    ]);
+    // Satu query: total unit + berapa yang tersedia sekaligus (conditional aggregation),
+    // hemat satu round-trip ke DB remote. Subquery ditandai NOT EXISTS + index status.
+    const res = await client.execute({
+      sql: `SELECT
+              COUNT(*) AS total,
+              SUM(
+                CASE WHEN NOT EXISTS (
+                    SELECT 1 FROM occupancy_history oh
+                    WHERE CAST(oh.no_kamar AS INTEGER) = k.no_kamar AND oh.status = 'Check-in'
+                  )
+                  AND NOT EXISTS (
+                    SELECT 1 FROM booking b
+                    WHERE b.kamar_no = k.no_kamar AND b.status_booking = 'Check-in'
+                  )
+                THEN 1 ELSE 0 END
+              ) AS available
+            FROM kamar k
+            WHERE k.tipe_kamar = ?`,
+      args: [tipe_kamar],
+    });
 
-    const total = Number(totalResult.rows[0].total);
-    const available = Number(availableResult.rows[0].available);
+    const row = res.rows[0];
+    const total = Number(row.total);
+    const available = Number(row.available ?? 0);
 
     return NextResponse.json({ available, total, tipe_kamar, check_in_date });
   } catch (err) {
