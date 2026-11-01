@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { client } from "@/lib/db/client";
+import { pmsClient } from "@/lib/db/client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   try {
     // Satu query: total unit + berapa yang tersedia sekaligus (conditional aggregation),
     // hemat satu round-trip ke DB remote. Subquery ditandai NOT EXISTS + index status.
-    const res = await client.execute({
+    const res = await pmsClient.execute({
       sql: `SELECT
               COUNT(*) AS total,
               SUM(

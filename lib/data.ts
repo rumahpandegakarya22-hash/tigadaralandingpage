@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { asc, eq } from "drizzle-orm";
-import { db, client } from "./db/client";
+import { db, pmsClient } from "./db/client";
 import {
   landingProperties,
   landingHighlights,
@@ -43,7 +43,7 @@ export type LandingData = {
 // Tipe kamar jarang berubah → cache lama (1 jam), tag "kamar-types".
 export const getKamarTypes = unstable_cache(
   async (): Promise<string[]> => {
-    const res = await client.execute(
+    const res = await pmsClient.execute(
       "SELECT DISTINCT tipe_kamar FROM kamar WHERE tipe_kamar IS NOT NULL ORDER BY tipe_kamar"
     );
     return res.rows.map((r) => r.tipe_kamar as string);
