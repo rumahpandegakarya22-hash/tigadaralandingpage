@@ -3,7 +3,8 @@ import type { NextRequest } from "next/server";
 import { verifySessionToken, ADMIN_SESSION_COOKIE } from "@/lib/session";
 
 export async function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname === "/admin/login") {
+  // /admin/sso memverifikasi tiketnya sendiri (lihat app/admin/sso/route.ts), jadi tidak butuh sesi lebih dulu.
+  if (request.nextUrl.pathname === "/admin/login" || request.nextUrl.pathname === "/admin/sso") {
     return NextResponse.next();
   }
 
