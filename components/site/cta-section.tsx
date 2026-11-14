@@ -8,7 +8,17 @@ import type { Property } from "@/lib/types";
 import { fillCopy, type LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink } from "@/lib/utils";
 
-export function CtaSection({ property, copy }: { property: Property; copy: LandingCopy }) {
+export function CtaSection({
+  property,
+  copy,
+  slug,
+  kamarTypes,
+}: {
+  property: Property;
+  copy: LandingCopy;
+  slug: string;
+  kamarTypes: string[];
+}) {
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
     fillCopy(copy.wa_message, { name: property.name })
@@ -59,7 +69,7 @@ export function CtaSection({ property, copy }: { property: Property; copy: Landi
               <h3 className="font-heading text-xl font-bold text-ink">{copy.cta_form_title}</h3>
               <p className="mt-2 text-sm text-ink">{copy.cta_form_desc}</p>
               <div className="mt-6">
-                <ContactForm copy={copy} />
+                <ContactForm copy={copy} slug={slug} kamarTypes={kamarTypes} />
               </div>
             </div>
           </Reveal>

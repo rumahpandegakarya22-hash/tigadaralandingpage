@@ -57,7 +57,7 @@ export async function renderPropertyPage(slug: string) {
         <Location property={data.property} copy={copy} />
         <Testimonials testimonials={data.testimonials} copy={copy} />
         <Faq faqs={data.faqs} copy={copy} />
-        <CtaSection property={data.property} copy={copy} />
+        <CtaSection property={data.property} copy={copy} slug={slug} kamarTypes={kamarTypes} />
       </main>
       <Footer property={data.property} copy={copy} />
       <FloatingWhatsapp property={data.property} copy={copy} />
