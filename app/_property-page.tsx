@@ -14,6 +14,7 @@ import { Faq } from "@/components/site/faq";
 import { CtaSection } from "@/components/site/cta-section";
 import { Footer } from "@/components/site/footer";
 import { FloatingWhatsapp } from "@/components/site/floating-whatsapp";
+import { JsonLd } from "@/components/site/json-ld";
 
 export async function renderPropertyPage(slug: string) {
   const [data, properties, kamarTypes] = await Promise.all([
@@ -37,6 +38,7 @@ export async function renderPropertyPage(slug: string) {
 
   return (
     <>
+      <JsonLd data={data} />
       <Header property={data.property} properties={properties} activeSlug={slug} />
       <main className="flex-1">
         <Hero property={data.property} heroPhoto={heroPhoto} copy={data.copy} />

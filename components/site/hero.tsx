@@ -69,8 +69,8 @@ export function Hero({ property, heroPhoto, copy }: { property: Property; heroPh
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="mt-4 max-w-xl text-base text-on-primary sm:text-lg text-balance"
             >
-              {property.tagline}. Fasilitas lengkap, lokasi strategis, dan kenyamanan
-              setara hunian bintang — tanpa perlu survei langsung.
+              {property.tagline}. Kost putri dekat UGM di {property.city}, Jogja, dengan
+              fasilitas lengkap dan lokasi strategis — tanpa perlu survei langsung.
             </motion.p>
 
             <motion.div

@@ -22,7 +22,7 @@ export const DEFAULT_COPY: LandingCopy = {
 
   // Kamar & Harga
   rooms_eyebrow: "Kamar & Harga",
-  rooms_title: "Pilih Tipe Kamar Sesuai Kebutuhan",
+  rooms_title: "Kamar Kost Putri: Pilih Tipe Sesuai Kebutuhan",
   rooms_desc: "Semua harga transparan, sudah termasuk kebersihan area umum. Bandingkan spesifikasi tiap tipe sebelum menghubungi kami.",
   rooms_card_cta: "Tanya Kamar Ini",
   rooms_compare_bar_cta: "Bandingkan",
@@ -42,7 +42,7 @@ export const DEFAULT_COPY: LandingCopy = {
 
   // Lokasi
   location_eyebrow: "Lokasi",
-  location_title: "Mudah Dijangkau, Strategis untuk Aktivitas Harian",
+  location_title: "Lokasi Kost Putri Dekat UGM, Mudah Dijangkau",
   location_desc: "Cek jarak dan rute menuju kost sebelum berkunjung langsung.",
   location_address_label: "Alamat Lengkap",
   location_directions_label: "Petunjuk Arah",
@@ -54,7 +54,7 @@ export const DEFAULT_COPY: LandingCopy = {
 
   // FAQ
   faq_eyebrow: "FAQ",
-  faq_title: "Pertanyaan yang Sering Diajukan",
+  faq_title: "FAQ Kost Putri: Pertanyaan yang Sering Diajukan",
   faq_desc: "Masih ragu? Cek dulu jawaban dari pertanyaan yang paling sering ditanyakan.",
 
   // Hubungi Kami (CTA)

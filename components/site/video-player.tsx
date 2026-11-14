@@ -34,7 +34,7 @@ export function VideoPlayer({
     <div className="relative aspect-video w-full overflow-hidden rounded-md bg-scrim">
       <Image
         src={poster.src}
-        alt="Cuplikan video tur kost — foto mockup"
+        alt={poster.alt}
         fill
         sizes="(max-width: 768px) 100vw, 800px"
         className="object-cover opacity-80"
