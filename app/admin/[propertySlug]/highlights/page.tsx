@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { getLandingData } from "@/lib/data";
 import { createHighlight, updateHighlight, deleteHighlight, moveHighlight } from "@/app/admin/_actions/highlights";
-import { highlightIconOptions } from "@/lib/icon-options";
 import { AdminListEditor } from "@/components/admin/list-editor";
 import type { FieldConfig } from "@/components/admin/field";
+import { ICONS } from "@/components/site/icon-map";
 
 export default async function HighlightsPage({
   params,
@@ -16,7 +16,7 @@ export default async function HighlightsPage({
 
   const fields: FieldConfig[] = [
     { name: "label", label: "Label", type: "text" },
-    { name: "icon", label: "Ikon", type: "select", options: highlightIconOptions },
+    { name: "icon", label: "Ikon", type: "icon" },
   ];
 
   return (
@@ -32,7 +32,7 @@ export default async function HighlightsPage({
           values: { label: h.label, icon: h.icon },
           summary: (
             <span>
-              <strong>{h.label}</strong> · {h.icon}
+              <strong>{h.label}</strong> · {ICONS[h.icon]?.label ?? h.icon}
             </span>
           ),
         }))}

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { getLandingData } from "@/lib/data";
 import { createFacility, updateFacility, deleteFacility, moveFacility } from "@/app/admin/_actions/facilities";
-import { facilityIconOptions } from "@/lib/icon-options";
 import { AdminListEditor } from "@/components/admin/list-editor";
 import type { FieldConfig } from "@/components/admin/field";
+import { ICONS } from "@/components/site/icon-map";
 
 export default async function FacilitiesPage({
   params,
@@ -17,7 +17,7 @@ export default async function FacilitiesPage({
   const fields: FieldConfig[] = [
     { name: "name", label: "Nama Fasilitas", type: "text" },
     { name: "description", label: "Deskripsi", type: "textarea" },
-    { name: "icon", label: "Ikon", type: "select", options: facilityIconOptions },
+    { name: "icon", label: "Ikon", type: "icon" },
     { name: "photoUrl", label: "URL Foto", type: "url", upload: "single" },
     { name: "photoAlt", label: "Deskripsi Foto (alt text)", type: "text" },
   ];
@@ -41,7 +41,7 @@ export default async function FacilitiesPage({
           },
           summary: (
             <span>
-              <strong>{f.name}</strong> · {f.icon}
+              <strong>{f.name}</strong> · {ICONS[f.icon]?.label ?? f.icon}
             </span>
           ),
         }))}

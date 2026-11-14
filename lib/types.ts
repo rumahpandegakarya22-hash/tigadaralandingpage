@@ -1,3 +1,5 @@
+import type { IconKey } from "@/lib/icon-options";
+
 export type Property = {
   id: string;
   name: string;
@@ -16,7 +18,7 @@ export type Property = {
 export type Highlight = {
   id: string;
   label: string;
-  icon: "wifi" | "shield" | "car" | "sparkles" | "utensils" | "clock";
+  icon: IconKey;
 };
 
 export type GalleryPhoto = {
@@ -43,15 +45,7 @@ export type Facility = {
   id: string;
   name: string;
   description: string;
-  icon:
-    | "kitchen"
-    | "sofa"
-    | "washer"
-    | "parking"
-    | "wifi"
-    | "security"
-    | "cleaning"
-    | "prayer";
+  icon: IconKey;
   photo: GalleryPhoto;
 };
 

@@ -1,11 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UploadButton } from "./upload-button";
+import { IconPicker } from "./icon-picker";
 
 export type FieldConfig =
   | { name: string; label: string; type: "text" | "url" | "number"; defaultValue?: string; upload?: "single" | "multi" }
   | { name: string; label: string; type: "textarea"; defaultValue?: string; upload?: "single" | "multi" }
-  | { name: string; label: string; type: "select"; options: readonly string[]; defaultValue?: string };
+  | { name: string; label: string; type: "select"; options: readonly string[]; defaultValue?: string }
+  | { name: string; label: string; type: "icon"; defaultValue?: string };
 
 export function FormField({ field }: { field: FieldConfig }) {
   return (
@@ -24,6 +26,8 @@ export function FormField({ field }: { field: FieldConfig }) {
           rows={3}
           className="w-full rounded-lg border border-input bg-transparent px-2.5 py-1.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         />
+      ) : field.type === "icon" ? (
+        <IconPicker name={field.name} defaultValue={field.defaultValue} />
       ) : field.type === "select" ? (
         <select
           id={field.name}
