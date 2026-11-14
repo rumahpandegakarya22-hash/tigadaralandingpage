@@ -48,7 +48,7 @@ export function RoomCard({
   const multiple = photos.length > 1;
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="group flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         {/* Slideshow: geser langsung (swipe/scroll) tanpa perlu klik dulu. */}
         <div
