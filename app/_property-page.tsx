@@ -24,24 +24,24 @@ export async function renderPropertyPage(slug: string) {
   ]);
   if (!data) notFound();
 
-  // Foto hero: prioritas slot khusus, lalu foto galeri pertama, terakhir placeholder.
+  // Hero = slideshow foto galeri (menu Galeri Foto & Video, maks 6), terakhir placeholder.
   // Jangan pernah notFound() cuma karena foto belum diisi — halaman harus tetap tampil.
-  const heroPhoto =
-    (data.property.heroPhotoUrl
-      ? { id: "hero", src: data.property.heroPhotoUrl, alt: `Foto ${data.property.name}` }
-      : data.galleryPhotos[0]) ??
-    {
-      id: "hero-placeholder",
-      src: `https://picsum.photos/seed/${encodeURIComponent(slug)}-hero/1600/1067`,
-      alt: `Foto ${data.property.name}`,
-    };
+  const heroPhotos = data.galleryPhotos.length
+    ? data.galleryPhotos.slice(0, 6)
+    : [
+        {
+          id: "hero-placeholder",
+          src: `https://picsum.photos/seed/${encodeURIComponent(slug)}-hero/1600/1067`,
+          alt: `Foto ${data.property.name}`,
+        },
+      ];
 
   return (
     <>
       <JsonLd data={data} />
       <Header property={data.property} properties={properties} activeSlug={slug} />
       <main className="flex-1">
-        <Hero property={data.property} heroPhoto={heroPhoto} copy={data.copy} />
+        <Hero property={data.property} photos={heroPhotos} copy={data.copy} />
         <HighlightsStrip highlights={data.highlights} />
         {(data.galleryPhotos.length > 0 || data.tourVideo.src) && (
           <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} copy={data.copy} />

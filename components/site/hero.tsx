@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { MessageCircle, ChevronDown } from "lucide-react";
 import { Container } from "./container";
@@ -14,8 +15,20 @@ const heroItem = {
   show: { opacity: 1, y: 0 },
 };
 
-export function Hero({ property, heroPhoto, copy }: { property: Property; heroPhoto: GalleryPhoto; copy: LandingCopy }) {
+const SLIDE_MS = 5000;
+
+export function Hero({ property, photos, copy }: { property: Property; photos: GalleryPhoto[]; copy: LandingCopy }) {
   const shouldReduceMotion = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const multi = photos.length > 1 && !shouldReduceMotion;
+
+  // `active` ikut jadi dependency agar timer mulai ulang setelah klik titik indikator.
+  useEffect(() => {
+    if (!multi) return;
+    const t = setTimeout(() => setActive((i) => (i + 1) % photos.length), SLIDE_MS);
+    return () => clearTimeout(t);
+  }, [multi, active, photos.length]);
+
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
     `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
@@ -30,14 +43,18 @@ export function Hero({ property, heroPhoto, copy }: { property: Property; heroPh
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <Image
-            src={heroPhoto.src}
-            alt={heroPhoto.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+          {photos.map((photo, i) => (
+            <Image
+              key={photo.id}
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              aria-hidden={i !== active}
+              className={`object-cover transition-opacity duration-1000 ${i === active ? "opacity-100" : "opacity-0"}`}
+            />
+          ))}
         </motion.div>
         <div
           className="absolute inset-0 bg-gradient-to-t from-scrim/85 via-scrim/35 to-scrim/10"
@@ -96,6 +113,21 @@ export function Hero({ property, heroPhoto, copy }: { property: Property; heroPh
             </motion.div>
           </motion.div>
         </Container>
+
+        {multi ? (
+          <div className="absolute bottom-6 right-6 flex gap-2 sm:right-10" role="group" aria-label="Pilih foto">
+            {photos.map((photo, i) => (
+              <button
+                key={photo.id}
+                type="button"
+                aria-label={`Foto ${i + 1}`}
+                aria-current={i === active}
+                onClick={() => setActive(i)}
+                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-on-primary" : "w-2 bg-on-primary/50 hover:bg-on-primary/80"}`}
+              />
+            ))}
+          </div>
+        ) : null}
 
         <a
           href="#keunggulan"

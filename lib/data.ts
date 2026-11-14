@@ -138,8 +138,8 @@ export const getLandingData = unstable_cache(
       label: h.label,
       icon: h.icon as Highlight["icon"],
     })),
-    // Foto cover galeri dipimpin ke depan → jadi latar hero (bila hero_photo_url
-    // kosong) sekaligus slide pertama; sisanya ikut urutan `order`.
+    // Foto cover galeri dipimpin ke depan → jadi latar hero
+    // sekaligus slide pertama; sisanya ikut urutan `order`.
     galleryPhotos: [...galleryRows]
       .sort((a, b) => (b.isCover ? 1 : 0) - (a.isCover ? 1 : 0))
       .map((p) => ({
