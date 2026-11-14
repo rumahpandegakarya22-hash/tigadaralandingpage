@@ -28,6 +28,7 @@ const schema = z.object({
   phoneDisplay: z.string().min(1),
   tourVideoUrl: z.string().url().optional().or(z.literal("")),
   tourVideoPosterUrl: z.string().url().optional().or(z.literal("")),
+  tourVideoEnabled: z.number().int().min(0).max(1),
 });
 
 function parseForm(formData: FormData) {
@@ -44,6 +45,7 @@ function parseForm(formData: FormData) {
     phoneDisplay: formData.get("phoneDisplay"),
     tourVideoUrl: formData.get("tourVideoUrl") || "",
     tourVideoPosterUrl: formData.get("tourVideoPosterUrl") || "",
+    tourVideoEnabled: formData.get("tourVideoEnabled") ? 1 : 0,
   });
 }
 

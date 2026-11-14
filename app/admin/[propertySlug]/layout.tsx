@@ -13,6 +13,7 @@ const navItems = [
   { href: "highlights", label: "Keunggulan" },
   { href: "gallery", label: "Galeri & Video" },
   { href: "rooms", label: "Kamar & Harga" },
+  { href: "kamar-photos", label: "Foto Nomor Kamar" },
   { href: "teks/availability", label: "Cek Ketersediaan" },
   { href: "facilities", label: "Fasilitas" },
   { href: "teks/location", label: "Lokasi" },

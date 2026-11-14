@@ -45,6 +45,18 @@ export default async function PropertyPage({
             <Input id={name} name={name} defaultValue={value} />
           </div>
         ))}
+        <label className="flex items-start gap-2 text-sm text-ink">
+          <input
+            type="checkbox"
+            name="tourVideoEnabled"
+            defaultChecked={data.tourVideo.enabled}
+            className="mt-0.5 size-4 accent-primary"
+          />
+          <span>
+            Tampilkan blok video tur di galeri. Bila URL video kosong, pengunjung melihat teks &quot;video segera
+            hadir&quot;.
+          </span>
+        </label>
         <CtaButton type="submit" variant="primary" size="md" className="w-fit text-sm">
           Simpan Perubahan
         </CtaButton>
