@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SectionCopy } from "@/components/admin/section-copy";
 import { getLandingData } from "@/lib/data";
 import { createGalleryPhoto, updateGalleryPhoto, deleteGalleryPhoto, moveGalleryPhoto } from "@/app/admin/_actions/gallery";
 import { AdminListEditor } from "@/components/admin/list-editor";
@@ -27,6 +28,8 @@ export default async function GalleryPage({
           foto yang sudah ada.
         </p>
       </div>
+
+      <SectionCopy slug={propertySlug} sectionId="gallery" copy={data.copy} />
 
       <AdminListEditor
         rows={data.galleryPhotos.map((p) => ({

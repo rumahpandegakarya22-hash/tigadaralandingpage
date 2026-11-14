@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SectionCopy } from "@/components/admin/section-copy";
 import { getLandingData } from "@/lib/data";
 import { createTestimonial, updateTestimonial, deleteTestimonial, moveTestimonial } from "@/app/admin/_actions/testimonials";
 import { AdminListEditor } from "@/components/admin/list-editor";
@@ -27,6 +28,8 @@ export default async function TestimonialsPage({
         <h1 className="font-heading text-xl font-bold text-ink">Testimoni</h1>
         <p className="mt-1 text-sm text-ink">Kartu testimoni penghuni di landing page.</p>
       </div>
+
+      <SectionCopy slug={propertySlug} sectionId="testimonials" copy={data.copy} />
 
       <AdminListEditor
         rows={data.testimonials.map((t) => ({

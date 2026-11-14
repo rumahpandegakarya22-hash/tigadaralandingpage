@@ -71,7 +71,7 @@ export function Gallery({
               {copy.gallery_video_title}
             </h3>
             <div className="mx-auto max-w-3xl">
-              <VideoPlayer poster={tourVideo.poster} src={tourVideo.src} />
+              <VideoPlayer poster={tourVideo.poster} src={tourVideo.src} soonLabel={copy.gallery_video_soon} />
             </div>
           </Reveal>
         )}

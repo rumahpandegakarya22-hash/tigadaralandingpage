@@ -5,12 +5,13 @@ import { Loader2, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CtaButton } from "./cta-button";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 
 const PHONE_PATTERN = /^(\+62|62|0)8[0-9]{8,11}$/;
 
 type FormErrors = { name?: string; phone?: string };
 
-export function ContactForm() {
+export function ContactForm({ copy }: { copy: LandingCopy }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
@@ -19,10 +20,10 @@ export function ContactForm() {
   function validate(): FormErrors {
     const nextErrors: FormErrors = {};
     if (name.trim().length < 2) {
-      nextErrors.name = "Nama minimal 2 karakter.";
+      nextErrors.name = copy.form_error_name;
     }
     if (!PHONE_PATTERN.test(phone.trim().replace(/[\s-]/g, ""))) {
-      nextErrors.phone = "Masukkan nomor HP/WhatsApp yang valid, contoh 08123456789.";
+      nextErrors.phone = copy.form_error_phone;
     }
     return nextErrors;
   }
@@ -43,9 +44,9 @@ export function ContactForm() {
     return (
       <div className="flex flex-col items-center gap-3 rounded-md border border-hairline bg-canvas p-8 text-center">
         <CheckCircle2 className="size-10 text-primary" aria-hidden="true" />
-        <p className="font-heading text-lg font-semibold text-ink">Terima kasih, {name}!</p>
+        <p className="font-heading text-lg font-semibold text-ink">{fillCopy(copy.form_success_title, { name })}</p>
         <p className="text-sm text-ink">
-          Pesan Anda sudah kami terima. Tim kami akan segera menghubungi Anda ke nomor {phone}.
+          {fillCopy(copy.form_success_desc, { phone })}
         </p>
       </div>
     );
@@ -54,12 +55,12 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="contact-name">Nama</Label>
+        <Label htmlFor="contact-name">{copy.form_name_label}</Label>
         <Input
           id="contact-name"
           name="name"
           autoComplete="name"
-          placeholder="Nama lengkap Anda"
+          placeholder={copy.form_name_placeholder}
           value={name}
           onChange={(e) => setName(e.target.value)}
           aria-invalid={Boolean(errors.name)}
@@ -73,13 +74,13 @@ export function ContactForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="contact-phone">Nomor HP / WhatsApp</Label>
+        <Label htmlFor="contact-phone">{copy.form_phone_label}</Label>
         <Input
           id="contact-phone"
           name="phone"
           type="tel"
           autoComplete="tel"
-          placeholder="08123456789"
+          placeholder={copy.form_phone_placeholder}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           aria-invalid={Boolean(errors.phone)}
@@ -96,10 +97,10 @@ export function ContactForm() {
         {status === "submitting" ? (
           <>
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            Mengirim...
+            {copy.form_sending}
           </>
         ) : (
-          "Hubungi Saya"
+          copy.form_submit
         )}
       </CtaButton>
     </form>

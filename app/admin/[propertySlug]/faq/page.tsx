@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SectionCopy } from "@/components/admin/section-copy";
 import { getLandingData } from "@/lib/data";
 import { createFaq, updateFaq, deleteFaq, moveFaq } from "@/app/admin/_actions/faq";
 import { AdminListEditor } from "@/components/admin/list-editor";
@@ -24,6 +25,8 @@ export default async function FaqPage({
         <h1 className="font-heading text-xl font-bold text-ink">FAQ</h1>
         <p className="mt-1 text-sm text-ink">Pertanyaan yang sering diajukan di landing page.</p>
       </div>
+
+      <SectionCopy slug={propertySlug} sectionId="faq" copy={data.copy} />
 
       <AdminListEditor
         rows={data.faqs.map((f) => ({

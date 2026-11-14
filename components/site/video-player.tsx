@@ -8,9 +8,11 @@ import type { GalleryPhoto } from "@/lib/types";
 export function VideoPlayer({
   poster,
   src,
+  soonLabel,
 }: {
   poster: GalleryPhoto;
   src: string;
+  soonLabel: string;
 }) {
   const [playing, setPlaying] = useState(false);
   const hasSource = Boolean(src);
@@ -51,7 +53,7 @@ export function VideoPlayer({
         </button>
         {!hasSource ? (
           <span className="rounded-full bg-canvas/90 px-3 py-1 text-xs font-semibold text-ink">
-            Mockup — video tur asli menyusul
+            {soonLabel}
           </span>
         ) : null}
       </div>

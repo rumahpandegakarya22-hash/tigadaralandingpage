@@ -1,11 +1,12 @@
 import { MessageCircle } from "lucide-react";
 import type { Property } from "@/lib/types";
 import { buildWhatsappLink } from "@/lib/utils";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 
-export function FloatingWhatsapp({ property }: { property: Property }) {
+export function FloatingWhatsapp({ property, copy }: { property: Property; copy: LandingCopy }) {
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
-    `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
+    fillCopy(copy.wa_message, { name: property.name })
   );
 
   return (

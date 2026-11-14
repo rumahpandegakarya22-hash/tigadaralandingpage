@@ -6,14 +6,20 @@ import { logoutAction } from "@/app/admin/_actions/auth";
 import { createProperty } from "@/app/admin/_actions/property";
 import { CtaButton } from "@/components/site/cta-button";
 
+// Urutan mengikuti urutan section di landing page.
 const navItems = [
   { href: "property", label: "Info Properti" },
+  { href: "teks/hero", label: "Hero (Header)" },
   { href: "highlights", label: "Keunggulan" },
   { href: "gallery", label: "Galeri & Video" },
   { href: "rooms", label: "Kamar & Harga" },
+  { href: "teks/availability", label: "Cek Ketersediaan" },
   { href: "facilities", label: "Fasilitas" },
+  { href: "teks/location", label: "Lokasi" },
   { href: "testimonials", label: "Testimoni" },
   { href: "faq", label: "FAQ" },
+  { href: "teks/contact", label: "Kontak" },
+  { href: "teks/navigation", label: "Menu & Footer" },
 ];
 
 export default async function AdminLayout({

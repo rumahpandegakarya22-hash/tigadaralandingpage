@@ -7,6 +7,7 @@ import { CtaButton } from "./cta-button";
 import type { RoomType, Property } from "@/lib/types";
 import type { LandingCopy } from "@/lib/copy";
 import { formatRupiah, buildWhatsappLink, cn } from "@/lib/utils";
+import { fillCopy } from "@/lib/copy";
 
 const MAX_COMPARE = 3;
 
@@ -176,11 +177,11 @@ function CompareModal({
   onRemove: (id: string) => void;
 }) {
   const rows: { label: string; render: (r: RoomType) => ReactNode }[] = [
-    { label: "Harga", render: (r) => <span className="font-heading text-lg font-bold text-ink">{formatRupiah(r.price)}<span className="text-xs font-normal text-ink">/bln</span></span> },
-    { label: "Ukuran", render: (r) => r.size },
-    { label: "Kasur", render: (r) => r.bed },
+    { label: copy.rooms_compare_price, render: (r) => <span className="font-heading text-lg font-bold text-ink">{formatRupiah(r.price)}<span className="text-xs font-normal text-ink">/bln</span></span> },
+    { label: copy.rooms_compare_size, render: (r) => r.size },
+    { label: copy.rooms_compare_bed, render: (r) => r.bed },
     {
-      label: "Spesifikasi",
+      label: copy.rooms_compare_specs,
       render: (r) => (
         <ul className="flex flex-col gap-1 text-left">
           {r.specs.map((s) => (
@@ -192,7 +193,7 @@ function CompareModal({
         </ul>
       ),
     },
-    { label: "Catatan", render: (r) => r.note ?? "—" },
+    { label: copy.rooms_compare_note, render: (r) => r.note ?? "—" },
   ];
 
   return (
@@ -267,7 +268,7 @@ function CompareModal({
                       as="a"
                       href={buildWhatsappLink(
                         property.whatsappNumber,
-                        `Halo, saya tertarik dengan ${r.name} di ${property.name} (${formatRupiah(r.price)}/bulan). Apakah masih tersedia?`
+                        fillCopy(copy.wa_room_message, { room: r.name, name: property.name, price: formatRupiah(r.price) })
                       )}
                       target="_blank"
                       rel="noopener noreferrer"

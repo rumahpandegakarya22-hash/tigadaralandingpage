@@ -9,8 +9,19 @@ import { CompareToggle } from "./room-compare";
 import { getSpecIcon } from "./spec-icon";
 import type { RoomType, Property } from "@/lib/types";
 import { formatRupiah, buildWhatsappLink, cn } from "@/lib/utils";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 
-export function RoomCard({ room, property, ctaLabel }: { room: RoomType; property: Property; ctaLabel: string }) {
+export function RoomCard({
+  room,
+  property,
+  ctaLabel,
+  copy,
+}: {
+  room: RoomType;
+  property: Property;
+  ctaLabel: string;
+  copy: LandingCopy;
+}) {
   const photos = room.photos.length ? room.photos : [room.photo];
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
@@ -18,7 +29,7 @@ export function RoomCard({ room, property, ctaLabel }: { room: RoomType; propert
 
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
-    `Halo, saya tertarik dengan ${room.name} di ${property.name} (${formatRupiah(room.price)}/bulan). Apakah masih tersedia?`
+    fillCopy(copy.wa_room_message, { room: room.name, name: property.name, price: formatRupiah(room.price) })
   );
 
   function handleScroll() {
@@ -133,7 +144,7 @@ export function RoomCard({ room, property, ctaLabel }: { room: RoomType; propert
             <span className="font-heading text-2xl font-bold text-ink">
               {formatRupiah(room.price)}
             </span>
-            <span className="text-sm text-ink">/bulan</span>
+            <span className="text-sm text-ink">{copy.rooms_per_month}</span>
           </div>
           {room.note ? <p className="mt-1 text-xs text-ink">{room.note}</p> : null}
 

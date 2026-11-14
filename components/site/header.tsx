@@ -8,29 +8,33 @@ import { CtaButton } from "./cta-button";
 import type { Property } from "@/lib/types";
 import type { PropertySummary } from "@/lib/data";
 import { buildWhatsappLink } from "@/lib/utils";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 
-const navLinks = [
-  { href: "#kamar", label: "Kamar & Harga" },
-  { href: "#cek-kamar", label: "Cek Ketersediaan" },
-  { href: "#fasilitas", label: "Fasilitas" },
-  { href: "#lokasi", label: "Lokasi" },
-  { href: "#testimoni", label: "Testimoni" },
-  { href: "#faq", label: "FAQ" },
+const buildNavLinks = (copy: LandingCopy) => [
+  { href: "#kamar", label: copy.nav_rooms },
+  { href: "#cek-kamar", label: copy.nav_availability },
+  { href: "#fasilitas", label: copy.nav_facilities },
+  { href: "#lokasi", label: copy.nav_location },
+  { href: "#testimoni", label: copy.nav_testimonials },
+  { href: "#faq", label: copy.nav_faq },
 ];
 
 export function Header({
   property,
   properties,
   activeSlug,
+  copy,
 }: {
   property: Property;
   properties: PropertySummary[];
   activeSlug: string;
+  copy: LandingCopy;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navLinks = buildNavLinks(copy);
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
-    `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
+    fillCopy(copy.wa_message, { name: property.name })
   );
 
   return (
@@ -41,7 +45,7 @@ export function Header({
             href="#top"
             className="font-heading text-lg font-bold text-ink shrink-0 transition-transform duration-200 hover:scale-105"
           >
-            Kost Tiga Dara<span className="text-primary">.</span>
+            {copy.brand_name}<span className="text-primary">.</span>
           </a>
           <div className="hidden md:block">
             <PropertySelector properties={properties} activeSlug={activeSlug} />
@@ -71,7 +75,7 @@ export function Header({
             className="hidden sm:inline-flex h-11 px-5 text-sm"
           >
             <MessageCircle className="size-4" aria-hidden="true" />
-            Hubungi Kami
+            {copy.header_cta}
           </CtaButton>
 
           <button
@@ -111,7 +115,7 @@ export function Header({
               className="mt-4 w-full"
             >
               <MessageCircle className="size-4" aria-hidden="true" />
-              Hubungi via WhatsApp
+              {copy.header_cta_mobile}
             </CtaButton>
           </Container>
         </div>

@@ -4,7 +4,15 @@ import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function CopyAddressButton({ address }: { address: string }) {
+export function CopyAddressButton({
+  address,
+  copyLabel,
+  copiedLabel,
+}: {
+  address: string;
+  copyLabel: string;
+  copiedLabel: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -29,12 +37,12 @@ export function CopyAddressButton({ address }: { address: string }) {
       {copied ? (
         <>
           <Check className="size-4 text-primary" aria-hidden="true" />
-          Alamat disalin
+          {copiedLabel}
         </>
       ) : (
         <>
           <Copy className="size-4" aria-hidden="true" />
-          Salin alamat
+          {copyLabel}
         </>
       )}
     </button>

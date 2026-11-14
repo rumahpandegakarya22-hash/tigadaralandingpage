@@ -7,7 +7,7 @@ import { SectionHeading } from "./section-heading";
 import { Reveal } from "./reveal";
 import { CtaButton } from "./cta-button";
 import type { Property } from "@/lib/types";
-import type { LandingCopy } from "@/lib/copy";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink, cn } from "@/lib/utils";
 
 type AvailabilityResult = {
@@ -65,8 +65,8 @@ export function AvailabilityChecker({
 
   const whatsappMsg =
     result?.available
-      ? `Halo, saya ingin memesan kamar ${result.tipe_kamar} di ${property.name}. Rencana masuk tanggal ${formattedDate}. Apakah bisa diproses?`
-      : `Halo, saya tertarik kamar ${tipeKamar} di ${property.name} tapi sepertinya penuh. Apakah ada daftar tunggu?`;
+      ? fillCopy(copy.wa_book_message, { tipe: result.tipe_kamar, name: property.name, tanggal: formattedDate })
+      : fillCopy(copy.wa_waitlist_message, { tipe: tipeKamar, name: property.name });
 
   const whatsappLink = buildWhatsappLink(property.whatsappNumber, whatsappMsg);
 
@@ -90,7 +90,7 @@ export function AvailabilityChecker({
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="check-in-date" className="text-sm font-medium text-ink">
-                    Rencana Tanggal Masuk
+                    {copy.availability_date_label}
                   </label>
                   <input
                     id="check-in-date"
@@ -105,7 +105,7 @@ export function AvailabilityChecker({
 
                 <div className="flex flex-col gap-2">
                   <label htmlFor="tipe-kamar" className="text-sm font-medium text-ink">
-                    Tipe Kamar
+                    {copy.availability_type_label}
                   </label>
                   <select
                     id="tipe-kamar"
@@ -134,7 +134,7 @@ export function AvailabilityChecker({
                 ) : (
                   <Search className="size-4" aria-hidden="true" />
                 )}
-                {status === "loading" ? "Mengecek..." : copy.availability_submit}
+                {status === "loading" ? copy.availability_loading : copy.availability_submit}
               </CtaButton>
             </form>
 
@@ -170,13 +170,18 @@ export function AvailabilityChecker({
                         )}
                       >
                         {result.available > 0
-                          ? `${result.available} kamar tersedia`
-                          : "Kamar penuh untuk tanggal ini"}
+                          ? fillCopy(copy.availability_available, { n: result.available })
+                          : copy.availability_full}
                       </p>
                       <p className="mt-1 text-sm text-ink">
                         {result.available > 0
-                          ? `${result.tipe_kamar} · ${result.available} dari ${result.total} unit kosong per ${formattedDate}`
-                          : `Semua ${result.total} unit ${result.tipe_kamar} sudah terisi atau dipesan`}
+                          ? fillCopy(copy.availability_available_detail, {
+                              tipe: result.tipe_kamar,
+                              n: result.available,
+                              total: result.total,
+                              tanggal: formattedDate,
+                            })
+                          : fillCopy(copy.availability_full_detail, { total: result.total, tipe: result.tipe_kamar })}
                       </p>
                       <CtaButton
                         as="a"
@@ -187,7 +192,7 @@ export function AvailabilityChecker({
                         className="mt-4"
                       >
                         <MessageCircle className="size-4" aria-hidden="true" />
-                        {result.available > 0 ? "Pesan Sekarang via WA" : "Daftar Waiting List"}
+                        {result.available > 0 ? copy.availability_book_cta : copy.availability_waitlist_cta}
                       </CtaButton>
                     </div>
                   </div>

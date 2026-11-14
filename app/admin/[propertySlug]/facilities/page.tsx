@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SectionCopy } from "@/components/admin/section-copy";
 import { getLandingData } from "@/lib/data";
 import { createFacility, updateFacility, deleteFacility, moveFacility } from "@/app/admin/_actions/facilities";
 import { AdminListEditor } from "@/components/admin/list-editor";
@@ -28,6 +29,8 @@ export default async function FacilitiesPage({
         <h1 className="font-heading text-xl font-bold text-ink">Fasilitas</h1>
         <p className="mt-1 text-sm text-ink">Fasilitas bersama yang tampil di section fasilitas.</p>
       </div>
+
+      <SectionCopy slug={propertySlug} sectionId="facilities" copy={data.copy} />
 
       <AdminListEditor
         rows={data.facilities.map((f) => ({

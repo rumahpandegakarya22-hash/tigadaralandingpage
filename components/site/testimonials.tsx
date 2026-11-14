@@ -16,7 +16,7 @@ export function Testimonials({ testimonials, copy }: { testimonials: Testimonial
             title={copy.testimonials_title}
             align="center"
           />
-          <p className="mt-8 text-center text-ink">Segera hadir.</p>
+          <p className="mt-8 text-center text-ink">{copy.testimonials_empty}</p>
         </Container>
       </section>
     );

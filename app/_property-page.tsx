@@ -15,6 +15,7 @@ import { CtaSection } from "@/components/site/cta-section";
 import { Footer } from "@/components/site/footer";
 import { FloatingWhatsapp } from "@/components/site/floating-whatsapp";
 import { JsonLd } from "@/components/site/json-ld";
+import { DEFAULT_COPY } from "@/lib/copy";
 
 export async function renderPropertyPage(slug: string) {
   const [data, properties, kamarTypes] = await Promise.all([
@@ -23,6 +24,9 @@ export async function renderPropertyPage(slug: string) {
     getKamarTypes(),
   ]);
   if (!data) notFound();
+
+  // Data Cache bisa menyimpan copy lama (tanpa key baru) setelah deploy; default digabung ulang di luar cache.
+  const copy = { ...DEFAULT_COPY, ...data.copy };
 
   // Hero = slideshow foto galeri (menu Galeri Foto & Video, maks 6), terakhir placeholder.
   // Jangan pernah notFound() cuma karena foto belum diisi — halaman harus tetap tampil.
@@ -39,24 +43,24 @@ export async function renderPropertyPage(slug: string) {
   return (
     <>
       <JsonLd data={data} />
-      <Header property={data.property} properties={properties} activeSlug={slug} />
+      <Header property={data.property} properties={properties} activeSlug={slug} copy={copy} />
       <main className="flex-1">
-        <Hero property={data.property} photos={heroPhotos} copy={data.copy} />
+        <Hero property={data.property} photos={heroPhotos} copy={copy} />
         <HighlightsStrip highlights={data.highlights} />
         {(data.galleryPhotos.length > 0 || data.tourVideo.src) && (
-          <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} copy={data.copy} />
+          <Gallery galleryPhotos={data.galleryPhotos} tourVideo={data.tourVideo} copy={copy} />
         )}
-        {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} copy={data.copy} />}
-        {data.kamarPhotos.length > 0 && <RoomNumberGallery groups={data.kamarPhotos} copy={data.copy} />}
-        <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} copy={data.copy} />
-        <Facilities facilities={data.facilities} copy={data.copy} />
-        <Location property={data.property} copy={data.copy} />
-        <Testimonials testimonials={data.testimonials} copy={data.copy} />
-        <Faq faqs={data.faqs} copy={data.copy} />
-        <CtaSection property={data.property} copy={data.copy} />
+        {data.rooms.length > 0 && <Rooms rooms={data.rooms} property={data.property} copy={copy} />}
+        {data.kamarPhotos.length > 0 && <RoomNumberGallery groups={data.kamarPhotos} copy={copy} />}
+        <AvailabilityChecker property={data.property} kamarTypes={kamarTypes} copy={copy} />
+        <Facilities facilities={data.facilities} copy={copy} />
+        <Location property={data.property} copy={copy} />
+        <Testimonials testimonials={data.testimonials} copy={copy} />
+        <Faq faqs={data.faqs} copy={copy} />
+        <CtaSection property={data.property} copy={copy} />
       </main>
-      <Footer property={data.property} />
-      <FloatingWhatsapp property={data.property} />
+      <Footer property={data.property} copy={copy} />
+      <FloatingWhatsapp property={data.property} copy={copy} />
     </>
   );
 }

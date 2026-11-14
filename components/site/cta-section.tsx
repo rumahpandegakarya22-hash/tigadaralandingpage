@@ -5,13 +5,13 @@ import { Reveal } from "./reveal";
 import { CtaButton } from "./cta-button";
 import { ContactForm } from "./contact-form";
 import type { Property } from "@/lib/types";
-import type { LandingCopy } from "@/lib/copy";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink } from "@/lib/utils";
 
 export function CtaSection({ property, copy }: { property: Property; copy: LandingCopy }) {
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
-    `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
+    fillCopy(copy.wa_message, { name: property.name })
   );
 
   return (
@@ -34,10 +34,7 @@ export function CtaSection({ property, copy }: { property: Property; copy: Landi
                   <MessageCircle className="relative size-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-heading text-xl font-bold">{copy.cta_whatsapp_title}</h3>
-                <p className="mt-2 text-sm text-on-primary">
-                  Tanya ketersediaan kamar, jadwal survei, atau nego harga langsung dengan pemilik.
-                  Respon cepat setiap hari.
-                </p>
+                <p className="mt-2 text-sm text-on-primary">{copy.cta_whatsapp_desc}</p>
                 <p className="mt-4 flex items-center gap-2 text-sm text-on-primary">
                   <Phone className="size-4" aria-hidden="true" />
                   {property.phoneDisplay}
@@ -52,7 +49,7 @@ export function CtaSection({ property, copy }: { property: Property; copy: Landi
                 className="w-full !border-on-primary !text-ink"
               >
                 <MessageCircle className="size-4" aria-hidden="true" />
-                Chat Sekarang
+                {copy.cta_whatsapp_button}
               </CtaButton>
             </div>
           </Reveal>
@@ -60,11 +57,9 @@ export function CtaSection({ property, copy }: { property: Property; copy: Landi
           <Reveal delay={0.1}>
             <div className="h-full rounded-md border border-hairline bg-canvas p-8">
               <h3 className="font-heading text-xl font-bold text-ink">{copy.cta_form_title}</h3>
-              <p className="mt-2 text-sm text-ink">
-                Tinggalkan nama dan nomor Anda, tim kami akan segera menghubungi.
-              </p>
+              <p className="mt-2 text-sm text-ink">{copy.cta_form_desc}</p>
               <div className="mt-6">
-                <ContactForm />
+                <ContactForm copy={copy} />
               </div>
             </div>
           </Reveal>

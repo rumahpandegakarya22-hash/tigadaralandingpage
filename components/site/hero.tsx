@@ -7,7 +7,7 @@ import { MessageCircle, ChevronDown } from "lucide-react";
 import { Container } from "./container";
 import { CtaButton } from "./cta-button";
 import type { Property, GalleryPhoto } from "@/lib/types";
-import type { LandingCopy } from "@/lib/copy";
+import { fillCopy, type LandingCopy } from "@/lib/copy";
 import { buildWhatsappLink } from "@/lib/utils";
 
 const heroItem = {
@@ -31,7 +31,7 @@ export function Hero({ property, photos, copy }: { property: Property; photos: G
 
   const whatsappLink = buildWhatsappLink(
     property.whatsappNumber,
-    `Halo, saya tertarik dengan ${property.name}. Boleh minta info lebih lanjut?`
+    fillCopy(copy.wa_message, { name: property.name })
   );
 
   return (
@@ -86,8 +86,7 @@ export function Hero({ property, photos, copy }: { property: Property; photos: G
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="mt-4 max-w-xl text-base text-on-primary sm:text-lg text-balance"
             >
-              {property.tagline}. Kost putri dekat UGM di {property.city}, Jogja, dengan
-              fasilitas lengkap dan lokasi strategis — tanpa perlu survei langsung.
+              {fillCopy(copy.hero_desc, { tagline: property.tagline, city: property.city })}
             </motion.p>
 
             <motion.div

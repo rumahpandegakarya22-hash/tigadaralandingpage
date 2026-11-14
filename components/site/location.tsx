@@ -42,7 +42,7 @@ export function Location({ property, copy }: { property: Property; copy: Landing
                 </div>
               </div>
 
-              <CopyAddressButton address={fullAddress} />
+              <CopyAddressButton address={fullAddress} copyLabel={copy.location_copy_cta} copiedLabel={copy.location_copied} />
 
               <div className="flex items-start gap-3 border-t border-hairline-soft pt-5">
                 <Navigation className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
@@ -60,7 +60,7 @@ export function Location({ property, copy }: { property: Property; copy: Landing
                 variant="primary"
                 className="mt-auto w-full"
               >
-                Buka di Google Maps
+                {copy.location_maps_cta}
                 <ExternalLink className="size-4" aria-hidden="true" />
               </CtaButton>
             </div>

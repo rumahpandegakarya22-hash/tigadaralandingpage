@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SectionCopy } from "@/components/admin/section-copy";
 import { getLandingData } from "@/lib/data";
 import { createRoom, updateRoom, deleteRoom, moveRoom } from "@/app/admin/_actions/rooms";
 import { formatRupiah } from "@/lib/utils";
@@ -31,6 +32,8 @@ export default async function RoomsPage({
         <h1 className="font-heading text-xl font-bold text-ink">Kamar & Harga</h1>
         <p className="mt-1 text-sm text-ink">Tipe kamar yang tampil di section pemilihan kamar.</p>
       </div>
+
+      <SectionCopy slug={propertySlug} sectionId="rooms" copy={data.copy} />
 
       <AdminListEditor
         rows={data.rooms.map((r) => ({
