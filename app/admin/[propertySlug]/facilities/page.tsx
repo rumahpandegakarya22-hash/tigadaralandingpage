@@ -18,7 +18,7 @@ export default async function FacilitiesPage({
     { name: "name", label: "Nama Fasilitas", type: "text" },
     { name: "description", label: "Deskripsi", type: "textarea" },
     { name: "icon", label: "Ikon", type: "select", options: facilityIconOptions },
-    { name: "photoUrl", label: "URL Foto", type: "url" },
+    { name: "photoUrl", label: "URL Foto", type: "url", upload: "single" },
     { name: "photoAlt", label: "Deskripsi Foto (alt text)", type: "text" },
   ];
 

@@ -14,7 +14,7 @@ export default async function GalleryPage({
   if (!data) notFound();
 
   const fields: FieldConfig[] = [
-    { name: "url", label: "URL Foto", type: "url" },
+    { name: "url", label: "URL Foto", type: "url", upload: "single" },
     { name: "alt", label: "Deskripsi Foto (alt text)", type: "text" },
   ];
 
@@ -23,8 +23,8 @@ export default async function GalleryPage({
       <div>
         <h1 className="font-heading text-xl font-bold text-ink">Galeri Foto</h1>
         <p className="mt-1 text-sm text-ink">
-          Foto pertama otomatis dipakai sebagai foto hero. Tempel URL foto (upload dulu ke layanan hosting gambar
-          pilihan Anda, lalu salin link-nya ke sini).
+          Foto pertama otomatis dipakai sebagai foto hero. Klik Upload untuk mengunggah foto, atau tempel URL
+          foto yang sudah ada.
         </p>
       </div>
 

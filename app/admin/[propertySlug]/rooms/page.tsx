@@ -17,7 +17,7 @@ export default async function RoomsPage({
   const fields: FieldConfig[] = [
     { name: "name", label: "Nama Tipe Kamar", type: "text" },
     { name: "price", label: "Harga per Bulan (angka saja)", type: "number" },
-    { name: "photoUrls", label: "URL Foto (satu per baris, foto pertama jadi cover)", type: "textarea" },
+    { name: "photoUrls", label: "URL Foto (satu per baris, foto pertama jadi cover)", type: "textarea", upload: "multi" },
     { name: "photoAlt", label: "Deskripsi Foto (alt text)", type: "text" },
     { name: "size", label: "Ukuran (contoh: 3 x 4 m)", type: "text" },
     { name: "bed", label: "Kasur (contoh: Kasur queen 160x200)", type: "text" },
