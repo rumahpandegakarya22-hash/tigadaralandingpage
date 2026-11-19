@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
@@ -20,6 +20,10 @@ export function Gallery({
   copy: LandingCopy;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const getOrigin = useCallback(
+    (i: number) => document.querySelector<HTMLElement>(`[data-gallery-index="${i}"]`),
+    []
+  );
 
   return (
     <section id="galeri" className="py-16 sm:py-20">
@@ -39,6 +43,7 @@ export function Gallery({
             >
               <button
                 type="button"
+                data-gallery-index={index}
                 onClick={() => setActiveIndex(index)}
                 aria-label={`Lihat foto ${index + 1} dari ${galleryPhotos.length}`}
                 className="group relative block h-full w-full cursor-pointer overflow-hidden rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
@@ -82,6 +87,7 @@ export function Gallery({
         activeIndex={activeIndex}
         onClose={() => setActiveIndex(null)}
         onNavigate={setActiveIndex}
+        getOrigin={getOrigin}
       />
     </section>
   );

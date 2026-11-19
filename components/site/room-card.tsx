@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { MessageCircle, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { CtaButton } from "./cta-button";
@@ -24,6 +24,7 @@ export function RoomCard({
 }) {
   const photos = room.photos.length ? room.photos : [room.photo];
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -46,10 +47,18 @@ export function RoomCard({
   }
 
   const multiple = photos.length > 1;
+  const getOrigin = useCallback(() => frameRef.current, []);
+
+  // Slideshow kartu ikut berpindah ke foto yang sedang dilihat di pratinjau, agar animasi tutup mendarat di foto yang sama.
+  function handleNavigate(i: number) {
+    setLightboxIndex(i);
+    const el = scrollerRef.current;
+    if (el) el.scrollTo({ left: i * el.clientWidth, behavior: "auto" });
+  }
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-md border border-hairline bg-canvas shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+      <div ref={frameRef} className="relative aspect-[4/3] w-full overflow-hidden">
         {/* Slideshow: geser langsung (swipe/scroll) tanpa perlu klik dulu. */}
         <div
           ref={scrollerRef}
@@ -57,7 +66,11 @@ export function RoomCard({
           className="flex h-full w-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {photos.map((photo, i) => (
-            <div key={photo.id} className="relative h-full w-full shrink-0 snap-center">
+            <div
+              key={photo.id}
+              onClick={() => setLightboxIndex(i)}
+              className="relative h-full w-full shrink-0 cursor-zoom-in snap-center"
+            >
               <Image
                 src={photo.src}
                 alt={photo.alt}
@@ -169,7 +182,8 @@ export function RoomCard({
         photos={photos}
         activeIndex={lightboxIndex}
         onClose={() => setLightboxIndex(null)}
-        onNavigate={setLightboxIndex}
+        onNavigate={handleNavigate}
+        getOrigin={getOrigin}
       />
     </div>
   );

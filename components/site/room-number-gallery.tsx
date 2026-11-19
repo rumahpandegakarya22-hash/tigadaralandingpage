@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { Container } from "./container";
 import { SectionHeading } from "./section-heading";
@@ -16,9 +16,15 @@ type Group = { noKamar: number; cover: GalleryPhoto; photos: GalleryPhoto[] };
 export function RoomNumberGallery({ groups, copy }: { groups: Group[]; copy: LandingCopy }) {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [index, setIndex] = useState<number | null>(null);
+  const [openNo, setOpenNo] = useState<number | null>(null);
+  const getOrigin = useCallback(
+    () => document.querySelector<HTMLElement>(`[data-kamar-no="${openNo}"]`),
+    [openNo]
+  );
 
   function open(g: Group) {
     setPhotos(g.photos);
+    setOpenNo(g.noKamar);
     setIndex(0);
   }
 
@@ -36,6 +42,7 @@ export function RoomNumberGallery({ groups, copy }: { groups: Group[]; copy: Lan
             <Reveal key={g.noKamar}>
               <button
                 type="button"
+                data-kamar-no={g.noKamar}
                 onClick={() => open(g)}
                 aria-label={`Lihat foto kamar ${g.noKamar}`}
                 className="group relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-md border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
@@ -67,6 +74,7 @@ export function RoomNumberGallery({ groups, copy }: { groups: Group[]; copy: Lan
         activeIndex={index}
         onClose={() => setIndex(null)}
         onNavigate={setIndex}
+        getOrigin={getOrigin}
       />
     </section>
   );
