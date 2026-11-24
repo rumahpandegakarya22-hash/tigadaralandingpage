@@ -2,12 +2,13 @@
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import Image from "next/image";
-import { Scale, X, Check, MessageCircle, Trash2 } from "lucide-react";
+import { Scale, X, Check, Minus, MessageCircle, Trash2 } from "lucide-react";
 import { CtaButton } from "./cta-button";
 import type { RoomType, Property } from "@/lib/types";
 import type { LandingCopy } from "@/lib/copy";
 import { formatRupiah, buildWhatsappLink, cn } from "@/lib/utils";
 import { fillCopy } from "@/lib/copy";
+import { buildCompareRows, type CompareCell } from "@/lib/compare";
 
 const MAX_COMPARE = 3;
 
@@ -163,6 +164,54 @@ function CompareBar({
   );
 }
 
+function Cell({ cell, copy }: { cell: CompareCell; copy: LandingCopy }) {
+  switch (cell.kind) {
+    case "yes":
+      return (
+        <div className="flex items-start gap-2">
+          <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+          <div>
+            <span className="font-semibold text-ink">{copy.rooms_compare_yes}</span>
+            {cell.detail ? <p className="mt-0.5 text-xs text-ink/70">{cell.detail}</p> : null}
+          </div>
+        </div>
+      );
+    case "no":
+      return (
+        <div className="flex items-center gap-2 text-ink/70">
+          <Minus className="size-4 shrink-0" aria-hidden="true" />
+          <span>{copy.rooms_compare_no}</span>
+        </div>
+      );
+    case "value":
+      return (
+        <div>
+          <span className="font-semibold text-ink">{cell.text}</span>
+          {cell.detail ? <p className="mt-0.5 text-xs text-ink/70">{cell.detail}</p> : null}
+        </div>
+      );
+    case "list":
+      return (
+        <ul className="flex flex-col gap-1 text-left">
+          {cell.items.map((s) => (
+            <li key={s} className="flex items-start gap-1.5">
+              <Check className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+              <span>{s}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    case "text":
+      return cell.strong ? (
+        <span className="font-heading text-lg font-bold text-ink">{cell.text}</span>
+      ) : (
+        <span>{cell.text}</span>
+      );
+    default:
+      return <span className="text-ink/50">—</span>;
+  }
+}
+
 function CompareModal({
   rooms,
   property,
@@ -176,25 +225,15 @@ function CompareModal({
   onClose: () => void;
   onRemove: (id: string) => void;
 }) {
-  const rows: { label: string; render: (r: RoomType) => ReactNode }[] = [
-    { label: copy.rooms_compare_price, render: (r) => <span className="font-heading text-lg font-bold text-ink">{formatRupiah(r.price)}<span className="text-xs font-normal text-ink">/bln</span></span> },
-    { label: copy.rooms_compare_size, render: (r) => r.size },
-    { label: copy.rooms_compare_bed, render: (r) => r.bed },
-    {
-      label: copy.rooms_compare_specs,
-      render: (r) => (
-        <ul className="flex flex-col gap-1 text-left">
-          {r.specs.map((s) => (
-            <li key={s} className="flex items-start gap-1.5">
-              <Check className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
-              <span>{s}</span>
-            </li>
-          ))}
-        </ul>
-      ),
-    },
-    { label: copy.rooms_compare_note, render: (r) => r.note ?? "—" },
-  ];
+  const [onlyDiff, setOnlyDiff] = useState(false);
+  const allRows = buildCompareRows(rooms, copy);
+  const dataRows = allRows.filter((row) => !row.header);
+  // Judul grup ikut tampil hanya bila ada baris di bawahnya yang berbeda.
+  const rows = onlyDiff
+    ? allRows.filter((row) =>
+        row.header ? allRows.some((g) => !g.header && g.group === row.group && g.differs) : row.differs
+      )
+    : allRows;
 
   return (
     <div
@@ -222,16 +261,47 @@ function CompareModal({
           </button>
         </div>
 
+        <div className="flex items-center justify-between gap-3 border-b border-hairline px-5 py-2.5">
+          <span className="text-xs text-ink/70">
+            {dataRows.filter((r) => r.differs).length} / {dataRows.length} {copy.rooms_compare_diff_mark.toLowerCase()}
+          </span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={onlyDiff}
+            onClick={() => setOnlyDiff((v) => !v)}
+            className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-ink"
+          >
+            <span
+              className={cn(
+                "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
+                onlyDiff ? "bg-primary" : "bg-hairline"
+              )}
+            >
+              <span
+                className={cn(
+                  "inline-block size-4 rounded-full bg-canvas shadow transition-transform",
+                  onlyDiff ? "translate-x-[18px]" : "translate-x-0.5"
+                )}
+              />
+            </span>
+            {copy.rooms_compare_only_diff}
+          </button>
+        </div>
+
         <div className="overflow-auto">
-          <table className="w-full border-collapse text-sm text-ink">
+          <table
+            className="w-full table-fixed border-collapse text-sm text-ink"
+            style={{ minWidth: 128 + rooms.length * 170 }}
+          >
             <thead>
               <tr>
-                <th className="sticky left-0 z-10 w-28 bg-canvas p-3 text-left align-bottom text-xs font-medium uppercase tracking-wide text-ink/60">
+                <th className="sticky left-0 top-0 z-30 w-28 bg-canvas p-3 text-left align-bottom text-xs font-medium uppercase tracking-wide text-ink/60">
                   Tipe
                 </th>
                 {rooms.map((r) => (
-                  <th key={r.id} className="min-w-[160px] border-l border-hairline p-3 align-top">
-                    <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden rounded-sm">
+                  <th key={r.id} className="sticky top-0 z-20 border-l border-hairline bg-canvas p-3 align-top">
+                    <div className="relative mb-2 h-24 w-full overflow-hidden rounded-sm sm:h-28">
                       <Image src={r.photo.src} alt={r.photo.alt} fill sizes="200px" className="object-cover" />
                       <button
                         type="button"
@@ -248,18 +318,44 @@ function CompareModal({
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr key={row.label} className="border-t border-hairline align-top">
-                  <th className="sticky left-0 z-10 bg-canvas p-3 text-left text-xs font-medium uppercase tracking-wide text-ink/60">
+              {rows.map((row) =>
+                row.header ? (
+                  <tr key={row.id} className="border-t border-hairline">
+                    <th
+                      colSpan={rooms.length + 1}
+                      scope="colgroup"
+                      className="sticky left-0 bg-surface-soft px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-ink"
+                    >
+                      {row.label}
+                    </th>
+                  </tr>
+                ) : (
+                <tr key={row.id} className="border-t border-hairline align-top">
+                  <th
+                    scope="row"
+                    className={cn(
+                      "sticky left-0 z-10 p-3 text-left text-xs font-semibold uppercase tracking-wide text-ink/70",
+                      row.differs ? "bg-surface-soft" : "bg-canvas"
+                    )}
+                  >
                     {row.label}
+                    {row.differs ? (
+                      <span className="mt-1 block w-fit rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-primary">
+                        {copy.rooms_compare_diff_mark}
+                      </span>
+                    ) : null}
                   </th>
-                  {rooms.map((r) => (
-                    <td key={r.id} className="border-l border-hairline p-3">
-                      {row.render(r)}
+                  {row.cells.map((cell, i) => (
+                    <td
+                      key={rooms[i].id}
+                      className={cn("border-l border-hairline p-3", row.differs && "bg-surface-soft/60")}
+                    >
+                      <Cell cell={cell} copy={copy} />
                     </td>
                   ))}
                 </tr>
-              ))}
+                )
+              )}
               <tr className="border-t border-hairline">
                 <th className="sticky left-0 z-10 bg-canvas p-3" />
                 {rooms.map((r) => (
