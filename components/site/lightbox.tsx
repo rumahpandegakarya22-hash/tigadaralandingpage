@@ -60,7 +60,7 @@ function PhotoLayers({ photo }: { photo: GalleryPhoto }) {
         alt={photo.alt}
         fill
         sizes="100vw"
-        quality={85}
+        quality={90}
         onLoad={() => setSharp(true)}
         className={`object-contain transition-opacity duration-300 ${sharp ? "opacity-100" : "opacity-0"}`}
         draggable={false}

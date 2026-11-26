@@ -50,6 +50,7 @@ export function Hero({ property, photos, copy }: { property: Property; photos: G
               alt={photo.alt}
               fill
               priority={i === 0}
+              quality={90}
               sizes="100vw"
               aria-hidden={i !== active}
               className={`object-cover transition-opacity duration-1000 ${i === active ? "opacity-100" : "opacity-0"}`}
