@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lora, Poppins } from "next/font/google";
 import { SITE_URL } from "@/lib/seo";
+import { getTabIcon } from "@/lib/data";
+import { DEFAULT_ICON, tabIconUrl } from "@/lib/tab-icon";
 import "./globals.css";
 
 const lora = Lora({
@@ -17,7 +19,12 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const icon = tabIconUrl(await getTabIcon());
+  return { ...baseMetadata, icons: { icon, apple: icon === DEFAULT_ICON ? undefined : icon } };
+}
+
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Kost Putri Dekat UGM Sleman Jogja | Kost Tiga Dara",
   description:

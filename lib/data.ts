@@ -65,6 +65,18 @@ export const getAllProperties = unstable_cache(
   { tags: ["properties"], revalidate: 3600 }
 );
 
+export const getTabIcon = unstable_cache(
+  async (): Promise<string | undefined> => {
+    const [row] = await db
+      .select({ value: landingCopy.value })
+      .from(landingCopy)
+      .where(eq(landingCopy.key, "tab_icon_url"));
+    return row?.value;
+  },
+  ["tab-icon"],
+  { tags: ["landing"], revalidate: 300 }
+);
+
 // Konten landing per-slug → cache, dibatalkan lewat tag "landing" saat admin edit.
 export const getLandingData = unstable_cache(
   async (slug: string): Promise<LandingData | null> => {

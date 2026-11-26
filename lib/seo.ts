@@ -55,7 +55,7 @@ export function buildPropertyDescription(
 
 export function buildPropertyMetadata(data: LandingData): Metadata {
   const { property, rooms, facilities } = data;
-  const title = buildPropertyTitle(property);
+  const title = data.copy[`tab_title_${data.propertyId}`] || buildPropertyTitle(property);
   const description = buildPropertyDescription(property, rooms, facilities);
   const path = `/${property.id}`;
   return {

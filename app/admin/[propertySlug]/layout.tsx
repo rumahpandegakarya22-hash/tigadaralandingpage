@@ -22,6 +22,7 @@ const navItems = [
   { href: "faq", label: "FAQ" },
   { href: "teks/contact", label: "Kontak" },
   { href: "teks/navigation", label: "Menu & Footer" },
+  { href: "tab", label: "Tab Browser" },
 ];
 
 export default async function AdminLayout({
