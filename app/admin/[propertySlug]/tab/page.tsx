@@ -31,7 +31,7 @@ export default async function TabPage({
       {/* key: input tidak terkontrol, perlu di-mount ulang saat nilai tersimpan berubah */}
       <form key={`${icon}|${title}`} action={action} className="flex flex-col gap-4 rounded-md border border-hairline bg-canvas p-6">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="icon">Ikon tab (berlaku untuk seluruh situs)</Label>
+          <Label htmlFor="icon">Ikon tab dan logo header (berlaku untuk seluruh situs)</Label>
           <div className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={icon || DEFAULT_ICON} alt="Ikon yang tersimpan" className="size-8 shrink-0 object-contain" />

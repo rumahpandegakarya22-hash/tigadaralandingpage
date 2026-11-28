@@ -9,6 +9,7 @@ import type { Property } from "@/lib/types";
 import type { PropertySummary } from "@/lib/data";
 import { buildWhatsappLink } from "@/lib/utils";
 import { fillCopy, type LandingCopy } from "@/lib/copy";
+import { tabIconUrl } from "@/lib/tab-icon";
 
 const buildNavLinks = (copy: LandingCopy) => [
   { href: "#kamar", label: copy.nav_rooms },
@@ -43,16 +44,20 @@ export function Header({
         <div className="flex items-center gap-3 sm:gap-6">
           <a
             href="#top"
-            className="font-heading text-lg font-bold text-ink shrink-0 transition-transform duration-200 hover:scale-105"
+            className="flex items-center gap-2 font-heading text-lg font-bold text-ink shrink-0 transition-transform duration-200 hover:scale-105"
           >
-            {copy.brand_name}<span className="text-primary">.</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={tabIconUrl(copy.tab_icon_url)} alt="" width={40} height={40} className="size-10" />
+            <span>
+              {copy.brand_name}<span className="text-primary">.</span>
+            </span>
           </a>
           <div className="hidden md:block">
             <PropertySelector properties={properties} activeSlug={activeSlug} />
           </div>
         </div>
 
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Navigasi utama">
+        <nav className="hidden xl:flex items-center gap-7" aria-label="Navigasi utama">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -80,7 +85,7 @@ export function Header({
 
           <button
             type="button"
-            className="lg:hidden inline-flex size-11 items-center justify-center rounded-sm border border-hairline text-ink cursor-pointer transition-transform duration-200 active:scale-90"
+            className="xl:hidden inline-flex size-11 items-center justify-center rounded-sm border border-hairline text-ink cursor-pointer transition-transform duration-200 active:scale-90"
             aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -91,7 +96,7 @@ export function Header({
       </Container>
 
       {menuOpen ? (
-        <div className="lg:hidden border-t border-hairline bg-canvas animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="xl:hidden border-t border-hairline bg-canvas animate-in fade-in slide-in-from-top-2 duration-200">
           <Container className="flex flex-col gap-1 py-4">
             <div className="mb-2 md:hidden">
               <PropertySelector properties={properties} activeSlug={activeSlug} />
